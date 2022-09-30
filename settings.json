@@ -9,9 +9,7 @@
         "pip": [
             {
                 "source": "https://pypi.python.org/simple",
-                "packages": [
-                    {"name": "statsmodels", "version": "0.13.2"}
-                ]
+                "packages": []
             },
             {
                 "source": "https://$GWS_PIP_PACKAGE_TOKEN@gitlab.com/api/.../packages/pypi",
