@@ -6,6 +6,7 @@
 import pandas
 from gws_core import (ConfigParams, InputSpec, IntParam, OutputSpec, StrParam,
                       Table, Task, TaskInputs, TaskOutputs, task_decorator)
+from numpy import isnan
 from scipy.stats import f_oneway
 
 from ..resource.anova_result import OneWayAnovaResult
@@ -81,8 +82,6 @@ class OneWayAnova(Task):
 
     config_specs = {}
 
-    _is_nan_warning_shown = False
-
     async def run(self, params: ConfigParams, inputs: TaskInputs) -> TaskOutputs:
         """ Run the task """
 
@@ -91,11 +90,10 @@ class OneWayAnova(Task):
         data = data.apply(pandas.to_numeric, errors='coerce')  # convert every value numeric if possible
         array_has_nan = data.isnull().sum().sum()
         data = data.to_numpy().T
+
         if array_has_nan:
-            data = [[x for x in y if not np.isnan(x)] for y in data]  # remove nan values
-            if not self._is_nan_warning_shown:
-                self.log_warning_message("Data contain NaN values. NaN values are omitted.")
-                self._is_nan_warning_shown = True
+            data = [[x for x in y if not isnan(x)] for y in data]  # remove nan values
+            self.log_warning_message("Data contain NaN values. NaN values are omitted.")
 
         stat_result = f_oneway(*data)
         result = OneWayAnovaResult(stat_result=stat_result)
