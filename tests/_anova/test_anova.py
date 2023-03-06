@@ -1,12 +1,13 @@
 
-from gws_academy import OneWayAnova
 from gws_core import BaseTestCase, Table, TaskRunner
 from pandas import DataFrame
+
+from gws_academy import OneWayAnova
 
 
 class OneWayAnovaTest(BaseTestCase):
 
-    async def test_process(self):
+    def test_process(self):
         dataframe = DataFrame(
             {'col1': [0, 1, 2, 2],
              'col2': [0, 0, 2, 5],
@@ -21,7 +22,7 @@ class OneWayAnovaTest(BaseTestCase):
             inputs={'table': table},
             task_type=OneWayAnova
         )
-        outputs = await tester.run()
+        outputs = tester.run()
         result = outputs['result']
 
         table = result.get_stats_table()

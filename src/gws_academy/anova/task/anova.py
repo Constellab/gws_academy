@@ -82,7 +82,7 @@ class OneWayAnova(Task):
 
     config_specs = {}
 
-    async def run(self, params: ConfigParams, inputs: TaskInputs) -> TaskOutputs:
+    def run(self, params: ConfigParams, inputs: TaskInputs) -> TaskOutputs:
         """ Run the task """
 
         table = inputs['table']

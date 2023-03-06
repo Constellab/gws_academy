@@ -35,7 +35,7 @@ class AcademyTemplateTask(Task):
             short_description="My first parameter"),
     }
 
-    async def run(self, params: ConfigParams, inputs: TaskInputs) -> TaskOutputs:
+    def run(self, params: ConfigParams, inputs: TaskInputs) -> TaskOutputs:
         """ Run the task """
 
         result = AcademyTemplateTaskResult()

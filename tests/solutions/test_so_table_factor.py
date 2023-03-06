@@ -1,7 +1,8 @@
 
-from gws_academy.tutorials.table_factor.task.table_factor import TableFactor
 from gws_core import BaseTestCase, Table, TaskRunner
 from pandas import DataFrame
+
+from gws_academy.tutorials.table_factor.task.table_factor import TableFactor
 
 
 class TestSoTableFactor(BaseTestCase):
@@ -11,7 +12,7 @@ class TestSoTableFactor(BaseTestCase):
       This test needs to be run to check that your task was correctly implemented
     """
 
-    async def test_table_factor(self):
+    def test_table_factor(self):
         # create the input table
         dataframe = DataFrame({'A': [0, 1, 2], 'B': [9, 7, 5]})
         table = Table(dataframe)
@@ -24,7 +25,7 @@ class TestSoTableFactor(BaseTestCase):
         )
 
         # run the task and retrieve the outputs
-        outputs = await tester.run()
+        outputs = tester.run()
 
         # get the output table
         result_table: Table = outputs['output_table']

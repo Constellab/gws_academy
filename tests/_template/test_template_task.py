@@ -6,7 +6,7 @@ from pandas import DataFrame
 
 class TemplateTest(BaseTestCase):
 
-    async def test_process(self):
+   def test_process(self):
         dataframe = DataFrame({'A': [0, 1, 2],'B': [9, 7, 5]})
              'col3': [1, 0, 2, 4],
              'col4': [0.1, 0.9, 6.2, 11.9],
@@ -19,7 +19,7 @@ class TemplateTest(BaseTestCase):
             inputs={'table': table},
             task_type=AcademyTemplateTask
         )
-        outputs = await tester.run()
+        outputs = tester.run()
         result = outputs['result']
 
         # ...

@@ -26,7 +26,7 @@ class RandomSimpleList(Task):
         'list_length': IntParam(default_value=100, min_value=1, max_value=10000),
         'description': StrParam()}
 
-    async def run(self, params: ConfigParams, inputs: TaskInputs) -> TaskOutputs:
+    def run(self, params: ConfigParams, inputs: TaskInputs) -> TaskOutputs:
         """ Run the task """
 
         # retrieve the description

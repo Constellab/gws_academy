@@ -26,7 +26,7 @@ class TableFactor(Task):
     config_specs = {"factor": IntParam(human_name='Factor',
                                        short_description="Factor to apply to the table")}
 
-    async def run(self, params: ConfigParams, inputs: TaskInputs) -> TaskOutputs:
+    def run(self, params: ConfigParams, inputs: TaskInputs) -> TaskOutputs:
         """ Run the task """
 
         # retrive the input table
