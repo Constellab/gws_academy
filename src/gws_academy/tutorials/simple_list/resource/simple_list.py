@@ -15,7 +15,7 @@ from gws_core import (ConfigParams, ListRField, Resource, ScatterPlot2DView,
 class SimpleList(Resource):
     """
     This is the solution for the tutorial 'Create your first Resource' :
-    https://hub.gencovery.com/bricks/gws_academy/latest/doc/create-your-first-resource
+    https://constellab.community/tech-doc/doc/tutorials/create-your-first-resource
     """
 
     numbers: List[float] = ListRField(include_in_dict_view=True)

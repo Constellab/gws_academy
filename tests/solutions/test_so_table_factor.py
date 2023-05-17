@@ -7,7 +7,7 @@ from gws_academy.tutorials.table_factor.task.table_factor import TableFactor
 
 class TestSoTableFactor(BaseTestCase):
     """This is the solution for the test of the tutorial 'Create your first task' :
-      https://hub.gencovery.com/bricks/gws_academy/latest/doc/create-your-first-task
+      https://constellab.community/tech-doc/doc/tutorials/create-your-first-task
 
       This test needs to be run to check that your task was correctly implemented
     """

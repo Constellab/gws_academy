@@ -14,7 +14,7 @@ from pandas import DataFrame
 class TableFactor(Task):
     """
     Apply a factor to a table. This is the solution for the tutorial on 'Create your first task' :
-    https://hub.gencovery.com/bricks/gws_academy/latest/doc/create-your-first-task
+    https://constellab.community/tech-doc/doc/tutorials/create-your-first-task
 
     """
 
