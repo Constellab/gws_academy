@@ -4,8 +4,9 @@
 # About us: https://gencovery.com
 
 
-from gws_core import (ConfigParams, InputSpec, IntParam, OutputSpec, StrParam,
-                      Table, Task, TaskInputs, TaskOutputs, task_decorator)
+from gws_core import (ConfigParams, InputSpec, InputSpecs, IntParam,
+                      OutputSpec, OutputSpecs, StrParam, Table, Task,
+                      TaskInputs, TaskOutputs, task_decorator)
 
 from ..resource.template_task_result import AcademyTemplateTaskResult
 
@@ -19,9 +20,9 @@ class AcademyTemplateTask(Task):
     Describe your task using Markdown (https://www.markdownguide.org/)
     """
 
-    input_specs = {'table': InputSpec(Table, human_name="Table", short_description="The input table")}
-    output_specs = {'result': OutputSpec(AcademyTemplateTaskResult, human_name="Result",
-                                         short_description="The output result")}
+    input_specs = InputSpecs({'table': InputSpec(Table, human_name="Table", short_description="The input table")})
+    output_specs = OutputSpecs({'result': OutputSpec(AcademyTemplateTaskResult, human_name="Result",
+                                                     short_description="The output result")})
 
     config_specs = {
         "param1":

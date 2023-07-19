@@ -5,8 +5,8 @@
 
 import random
 
-from gws_core import (ConfigParams, IntParam, OutputSpec, StrParam, Task,
-                      TaskInputs, TaskOutputs, task_decorator)
+from gws_core import (ConfigParams, IntParam, OutputSpec, OutputSpecs,
+                      StrParam, Task, TaskInputs, TaskOutputs, task_decorator)
 
 from ..resource.simple_list import SimpleList
 
@@ -18,9 +18,8 @@ class RandomSimpleList(Task):
     This is a simple task to generate a random list of float number between 0 and 100
     """
 
-    input_specs = {}
-    output_specs = {'simple_list': OutputSpec(SimpleList, human_name="Result",
-                                              short_description="The output result")}
+    output_specs = OutputSpecs({'simple_list': OutputSpec(SimpleList, human_name="Result",
+                                                          short_description="The output result")})
 
     config_specs = {
         'list_length': IntParam(default_value=100, min_value=1, max_value=10000),

@@ -4,8 +4,9 @@
 # About us: https://gencovery.com
 
 
-from gws_core import (ConfigParams, InputSpec, IntParam, OutputSpec, Table,
-                      Task, TaskInputs, TaskOutputs, task_decorator)
+from gws_core import (ConfigParams, InputSpec, InputSpecs, IntParam,
+                      OutputSpec, OutputSpecs, Table, Task, TaskInputs,
+                      TaskOutputs, task_decorator)
 from pandas import DataFrame
 
 
@@ -18,10 +19,10 @@ class TableFactor(Task):
 
     """
 
-    input_specs = {'input_table': InputSpec(Table, human_name="Table",
-                                            short_description="The input table")}
-    output_specs = {'output_table': OutputSpec(Table, human_name="Result",
-                                               short_description="The output table")}
+    input_specs = InputSpecs({'input_table': InputSpec(Table, human_name="Table",
+                                                       short_description="The input table")})
+    output_specs = OutputSpecs({'output_table': OutputSpec(Table, human_name="Result",
+                                                           short_description="The output table")})
 
     config_specs = {"factor": IntParam(human_name='Factor',
                                        short_description="Factor to apply to the table")}

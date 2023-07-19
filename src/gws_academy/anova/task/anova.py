@@ -4,8 +4,9 @@
 # About us: https://gencovery.com
 
 import pandas
-from gws_core import (ConfigParams, InputSpec, IntParam, OutputSpec, StrParam,
-                      Table, Task, TaskInputs, TaskOutputs, task_decorator)
+from gws_core import (ConfigParams, InputSpec, InputSpecs, OutputSpec,
+                      OutputSpecs, Table, Task, TaskInputs, TaskOutputs,
+                      task_decorator)
 from numpy import isnan
 from scipy.stats import f_oneway
 
@@ -76,9 +77,9 @@ class OneWayAnova(Task):
     For more details, see https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.f_oneway.html
     """
 
-    input_specs = {'table': InputSpec(Table, human_name="Table", short_description="The input table")}
-    output_specs = {'result': OutputSpec(OneWayAnovaResult, human_name="Result",
-                                         short_description="The output result")}
+    input_specs = InputSpecs({'table': InputSpec(Table, human_name="Table", short_description="The input table")})
+    output_specs = OutputSpecs({'result': OutputSpec(OneWayAnovaResult, human_name="Result",
+                                                     short_description="The output result")})
 
     config_specs = {}
 
