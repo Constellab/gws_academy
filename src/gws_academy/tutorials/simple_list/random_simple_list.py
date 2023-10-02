@@ -8,7 +8,7 @@ import random
 from gws_core import (ConfigParams, IntParam, OutputSpec, OutputSpecs,
                       StrParam, Task, TaskInputs, TaskOutputs, task_decorator)
 
-from ..resource.simple_list import SimpleList
+from .simple_list import SimpleList
 
 
 @task_decorator("RandomSimpleList", human_name="Random simple list",

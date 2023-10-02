@@ -3,5 +3,5 @@ channels:
   - conda-forge
 dependencies:
   - python=3.8
-  - biopython
+  - biopython==1.79
   - blast==2.13.0

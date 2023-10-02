@@ -1,10 +1,10 @@
 
+from gws_academy.tutorials.table_factor import TableFactor
 from gws_core import BaseTestCase, Table, TaskRunner
 from pandas import DataFrame
 
-from gws_academy.tutorials.table_factor.task.table_factor import TableFactor
 
-
+# test_so_table_factor
 class TestSoTableFactor(BaseTestCase):
     """This is the solution for the test of the tutorial 'Create your first task' :
       https://constellab.community/tech-doc/doc/tutorials/create-your-first-task

@@ -10,9 +10,9 @@ from gws_core import (ConfigParams, InputSpec, InputSpecs, IntParam,
 from pandas import DataFrame
 
 
-@task_decorator("TableFactor", human_name="Table factor",
+@task_decorator("SoTableFactor", human_name="Table factor",
                 short_description="Apply a factor to a table")
-class TableFactor(Task):
+class SoTableFactor(Task):
     """
     Apply a factor to a table. This is the solution for the tutorial on 'Create your first task' :
     https://constellab.community/tech-doc/doc/tutorials/create-your-first-task

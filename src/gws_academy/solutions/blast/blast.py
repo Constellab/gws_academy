@@ -3,30 +3,24 @@ import os
 
 from gws_core import (CondaShellProxy, ConfigParams, File, InputSpec,
                       InputSpecs, IntParam, MessageDispatcher, OutputSpec,
-                      OutputSpecs, PipShellProxy, ShellProxy, StrParam, Task,
+                      OutputSpecs, ShellProxy, StrParam, Task,
                       TaskFileDownloader, TaskInputs, TaskOutputs,
                       task_decorator)
 
 
 class BlastEnvHelper():
     CONDA_ENV_DIR_NAME = "BlastCondaEnv"
-    PIP_ENV_DIR_NAME = "BlastPipEnv"
     CONDA_ENV_FILE_PATH = os.path.join(os.path.abspath(
         os.path.dirname(__file__)), "blast_conda.yml")
-    PIP_ENV_FILE_PATH = os.path.join(os.path.abspath(
-        os.path.dirname(__file__)), "blast_pipenv.txt")
 
     @classmethod
     def create_conda_proxy(cls, message_dispatcher: MessageDispatcher = None) -> CondaShellProxy:
         return CondaShellProxy(cls.CONDA_ENV_DIR_NAME, cls.CONDA_ENV_FILE_PATH, message_dispatcher=message_dispatcher)
 
-    @classmethod
-    def create_pip_proxy(cls, message_dispatcher: MessageDispatcher = None) -> PipShellProxy:
-        return PipShellProxy(cls.PIP_ENV_DIR_NAME, cls.PIP_ENV_FILE_PATH, message_dispatcher=message_dispatcher)
 
-
-@task_decorator("Blast", human_name="Blast")
-class Blast(Task):
+@task_decorator("SoBlast", human_name="Blast",
+                short_description="Run a blast using a fasta file and an external database")
+class SoBlast(Task):
 
     # zebra_fish_db_url = "https://storage.gra.cloud.ovh.net/v1/AUTH_a0286631d7b24afba3f3cdebed2992aa/opendata/gws_academy/zebrafish.1.protein.faa.gz"
     # INPUT DATA PATH = "https://storage.gra.cloud.ovh.net/v1/AUTH_a0286631d7b24afba3f3cdebed2992aa/opendata/gws_academy/mouse.1.protein.faa.gz"
@@ -59,14 +53,13 @@ class Blast(Task):
         # create the file downloader using the current task brick name,
         # by passing the brick name of the Task, the file will be downloaded in a specific location for the brick
         # also pass the message_dispatcher to log downlod progress in the task messag
-        file_downloader = TaskFileDownloader(Blast.get_brick_name(), self.message_dispatcher)
+        file_downloader = TaskFileDownloader(SoBlast.get_brick_name(), self.message_dispatcher)
 
         # download the db and retrieve the path of the downloaded file
         zebra_zipped_db = file_downloader.download_file_if_missing(db_url, db_file_name)
 
         ############################ Create the shell proxy ############################
-        shell_proxy = BlastEnvHelper.create_conda_proxy(
-            self.message_dispatcher)
+        shell_proxy = BlastEnvHelper.create_conda_proxy(self.message_dispatcher)
         # store the shell_proxy in the class to be able to use it in the run_after_task method
         self.shell_proxy = shell_proxy
 
