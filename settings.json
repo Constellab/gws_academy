@@ -1,26 +1,24 @@
 {
     "name": "gws_academy",
     "author": "Gencovery",
-    "version": "0.5.0",
+    "version": "0.5.1",
     "variables": {
         "gws_academy:testdata_dir": "${CURRENT_DIR}/tests/testdata"
     },
     "environment": {
+        "bricks": [
+            {
+                "name": "gws_core",
+                "version": "0.5.12"
+            }
+        ],
         "pip": [
             {
                 "source": "https://pypi.python.org/simple",
                 "packages": []
-            },
-            {
-                "source": "https://$GWS_PIP_PACKAGE_TOKEN@gitlab.com/api/.../packages/pypi",
-                "packages": []
             }
         ],
         "git": [
-            {
-                "source": "https://$GWS_GIT_LOGIN:$GWS_GIT_PWD@gitlab.com/.../",
-                "packages": []
-            }
         ],
         "variables": {
             "GWS_GIT_LOGIN": "",
