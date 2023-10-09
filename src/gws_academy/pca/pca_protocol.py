@@ -1,11 +1,11 @@
 from gws_core import (ProcessSpec, Protocol, ResourceDownloaderHttp, Sink,
-                      TableColumnScaler, TableColumnsDeleter, TableImporter,
-                      protocol_decorator)
+                      Table, TableColumnScaler, TableColumnsDeleter,
+                      TableImporter, Viewer, protocol_decorator)
 
 from .pca import PCAExample
 
 
-@protocol_decorator("PCADemo", hide=True)
+@protocol_decorator("PCADemo", hide=False)
 class PCADemo(Protocol):
 
     def configure_protocol(self) -> None:
@@ -35,10 +35,40 @@ class PCADemo(Protocol):
         # define the protocol output
         sink_1: ProcessSpec = self.add_process(Sink, 'sink_1')
 
+        viewer = self.add_process(Viewer, 'viewer',
+                                  {
+                                      Viewer.resource_config_name: Table._typing_name,
+                                      Viewer.view_config_name: {
+                                          "config_values": {
+                                              "series": [
+                                                  {
+                                                      "name": "1",
+                                                      "y": {
+                                                              "type": "columns",
+                                                              "selection": [
+                                                                  "1"
+                                                              ]
+                                                      },
+                                                      "x": {
+                                                          "type": "columns",
+                                                          "selection": [
+                                                                  "0"
+                                                          ]
+                                                      }
+                                                  }
+                                              ],
+                                              "x_axis_label": None,
+                                              "y_axis_label": None
+                                          },
+                                          "view_method_name": "view_as_scatter_plot_2d"
+                                      }
+                                  })
+
         self.add_connectors([
             (file_downloader >> 'resource', table_importer << 'source'),
             (table_importer >> 'target', column_deleter << 'source'),
             (column_deleter >> 'target', table_scaler << 'source'),
             (table_scaler >> 'target', pca << 'source'),
             (pca >> 'target', sink_1 << Sink.input_name),
+            (pca >> 'target', viewer << Viewer.input_name)
         ])
