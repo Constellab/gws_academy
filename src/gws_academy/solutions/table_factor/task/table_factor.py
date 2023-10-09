@@ -10,7 +10,7 @@ from gws_core import (ConfigParams, InputSpec, InputSpecs, IntParam,
 from pandas import DataFrame
 
 
-@task_decorator("TableFactor", human_name="Table factor",
+@task_decorator("TableFactorSolution", human_name="Table factor",
                 short_description="Apply a factor to a table")
 class TableFactor(Task):
     """
