@@ -39,18 +39,6 @@ class PlotlyLine(Task):
             human_name="Title of the graph",
             short_description=""
         ),
-        'color': StrParam(
-            default_value=None,
-            optional=True,
-            human_name="Color",
-            short_description="CSS color for line"
-        ),
-        'symbol': StrParam(
-            default_value=None,
-            optional=True,
-            human_name="Symbol",
-            short_description=""
-        ),
         'y_axis_name': StrParam(
             default_value=None,
             optional=True,
@@ -63,11 +51,35 @@ class PlotlyLine(Task):
             human_name="X Axis Name",
             short_description=""
         ),
+        'color': StrParam(
+            default_value=None,
+            optional=True,
+            human_name="Color",
+            short_description="CSS color for line"
+        ),
+        'symbol': StrParam(
+            default_value=None,
+            optional=True,
+            human_name="Symbol",
+            short_description=""
+        ),
+        'line_group' : StrParam(
+            default_value=None,
+            optional=True,
+            human_name=" Group by line",
+            short_description="group rows by line"
+        ),
         'hover_data': StrParam(
             default_value=None,
             optional=True,
             human_name="Hover Data",
             short_description="Columns to display when hovering over data points"
+        ),
+        'text' : StrParam(
+            default_value=None,
+            optional=True,
+            human_name="Text tag",
+            short_description="",
         ),
         'facet_col': StrParam(
             default_value=None,
@@ -137,6 +149,14 @@ class PlotlyLine(Task):
             short_description="Column for grouping data points in animations",
             visibility="protected"
         ),
+        'line_shape' : StrParam(
+            default_value=None,
+            optional=True,
+            human_name="line shape",
+            allowed_values=["linear", "spline"],
+            visibility="protected",
+            short_description=""
+            ),
         'render_mode': StrParam(
             default_value=None,
             optional=True,

@@ -25,13 +25,13 @@ class PlotlyHeatmap(Task):
         'x' : ListParam(
             default_value=None,
             human_name="x labels",
-            optiional=True,
+            optional=True,
             short_description="labels for the x axis"
         ),
         'y' : ListParam(
             default_value=None,
             human_name="y labels",
-            optiional=True,
+            optional=True,
             short_description="labels for the y axis"
         ),
         'title': StrParam(
