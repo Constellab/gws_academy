@@ -6,8 +6,8 @@
 
 from gws_core import (ConfigParams, InputSpec, InputSpecs, PlotlyResource,
                       OutputSpec, OutputSpecs, StrParam, Table, Task,
-                      TaskInputs, TaskOutputs, task_decorator, IntParam,
-                      BoolParam, FloatParam, ListParam)
+                      TaskInputs, TaskOutputs, task_decorator,
+                      ListParam)
 
 import pandas as pd
 

@@ -55,7 +55,7 @@ class PlotlyLine(Task):
             default_value=None,
             optional=True,
             human_name="Color",
-            short_description="CSS color for line"
+            short_description="clomuns for the color"
         ),
         'symbol': StrParam(
             default_value=None,
@@ -81,17 +81,25 @@ class PlotlyLine(Task):
             human_name="Text tag",
             short_description="",
         ),
+        'markers' : BoolParam(
+            default_value=False,
+            human_name="Marker",
+            optional=True,
+            short_description="if ticked, markers are shown on line"
+        ),
         'facet_col': StrParam(
             default_value=None,
             optional=True,
             human_name="Facet Column",
-            short_description="Column to facet the plot into subplots by"
+            short_description="Column to facet the plot into subplots by",
+            visibility="protected"
         ),
         'facet_row': StrParam(
             default_value=None,
             optional=True,
             human_name="Facet Row",
-            short_description="Column to facet the plot into subplots by (rows)"
+            short_description="Column to facet plot into subplots by (rows)",
+            visibility="protected"
         ),
         'facet_col_wrap': IntParam(
             default_value=None,
@@ -112,27 +120,6 @@ class PlotlyLine(Task):
             optional=True,
             human_name="Log Y Axis",
             short_description="Set Y axis to logarithmic scale",
-            visibility="protected"
-        ),
-        'marginal_x': StrParam(
-            default_value=None,
-            optional=True,
-            human_name="Marginal X",
-            short_description="Add marginal plot along X axis",
-            visibility="protected"
-        ),
-        'marginal_y': StrParam(
-            default_value=None,
-            optional=True,
-            human_name="Marginal Y",
-            short_description="Add marginal plot along Y axis",
-            visibility="protected"
-        ),
-        'trendline': StrParam(
-            default_value=None,
-            optional=True,
-            human_name="Trendline",
-            short_description="Add a trendline to the plot",
             visibility="protected"
         ),
         'animation_frame': StrParam(
@@ -195,7 +182,10 @@ class PlotlyLine(Task):
             title=params['title'],
             color=params['color'],
             symbol=params["symbol"],
+            line_group=params['line_group'],
             hover_data=params["hover_data"],
+            markers=params["markers"],
+            text=params["text"],
             facet_col=params["facet_col"],
             facet_row=params["facet_row"],
             facet_col_wrap=params["facet_col_wrap"],
@@ -203,9 +193,10 @@ class PlotlyLine(Task):
             log_y=params["log_y"],
             animation_frame=params["animation_frame"],
             animation_group=params["animation_group"],
+            line_shape=params['line_shape'],
             render_mode=params["render_mode"],
             height=params["height"],
-            width=params["width"]
+            width=params["width"],
         )
 
         # Update axis titles
