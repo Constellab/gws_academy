@@ -24,7 +24,7 @@ class IdToBiomass(Task):
     }
 
     def run(self, params: ConfigParams, inputs: TaskInputs) -> TaskOutputs:
-        organism =inputs['input_json']
+        organism =inputs['input_json'].get_data()
 
         for i in range(len(organism['reactions'])) :
             if organism['reactions'][i]["id"] == params["id"] :

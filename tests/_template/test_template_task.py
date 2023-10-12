@@ -7,7 +7,7 @@ from pandas import DataFrame
 class TemplateTest(BaseTestCase):
 
    def test_process(self):
-        dataframe = DataFrame({'A': [0, 1, 2],'B': [9, 7, 5]})
+        dataframe = DataFrame({'A': [0, 1, 2],'B': [9, 7, 5],
              'col3': [1, 0, 2, 4],
              'col4': [0.1, 0.9, 6.2, 11.9],
              'col5': [-0.2, 1.1, 5.9, 12.3]})
