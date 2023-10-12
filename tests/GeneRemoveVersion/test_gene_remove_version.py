@@ -13,4 +13,4 @@ class TestGeneRemoveVersion(BaseTestCase):
         outputs = runner.run()
         json_output : JSONDict = outputs['output_json']
         expected_json : JSONDict = JSONImporter.call(File("data/GeneRemoveVersion/without_gene_version_truncated_model_2.json"))
-        self.assert_json(json_output, expected_json)
+        self.assertTrue(json_output.equals( expected_json))

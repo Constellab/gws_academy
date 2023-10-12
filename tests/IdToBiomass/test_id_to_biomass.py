@@ -1,19 +1,20 @@
 from gws_core import JSONDict, TaskRunner, BaseTestCase, JSONImporter, File
 from gws_academy.IdToBiomass.id_to_biomass import IdToBiomass
 
-class TestIdToBiomass(BaseTestCase) :
+
+class TestIdToBiomass(BaseTestCase):
 
     def test_id_to_biomass_CYOOm3i(self):
-        modele : JSONDict = JSONImporter.call(File("data/truncated_model_2.json"))
+        modele: JSONDict = JSONImporter.call(File("data/truncated_model_2.json"))
 
-        runner = TaskRunner(task_type= IdToBiomass,
-            inputs={'input_json' : modele},
-            params= {'id' : "CYOOm3i"})
+        runner = TaskRunner(task_type=IdToBiomass,
+                            inputs={'input_json': modele},
+                            params={'id': "CYOOm3i"})
 
         output = runner.run()
 
         json_output = output['output_json']
 
-        expected_json : JSONDict= JSONImporter.call(File("data/IdToBiomass/model_CYOOm3i.json"))
+        expected_json: JSONDict = JSONImporter.call(File("data/IdToBiomass/model_CYOOm3i.json"))
 
-        self.assert_json(expected_json, json_output)
+        self.assertTrue(expected_json.equals(json_output))
