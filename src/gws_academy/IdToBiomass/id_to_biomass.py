@@ -25,7 +25,11 @@ class IdToBiomass(Task):
 
     def run(self, params: ConfigParams, inputs: TaskInputs) -> TaskOutputs:
         organism = model_from_dict(inputs["input_json"].get_data())
+        # Obtenir une liste de tous les IDs de réaction dans le modèle
+        reaction_ids = [reaction.id for reaction in organism.reactions]
 
+        if params["id"] not in reaction_ids :
+            raise Exception(f"id {params['id']} not in reactions")
         to_modify = organism.reactions.get_by_id(params["id"])
         to_modify.id = "Biomass"
         return {'output_json': JSONDict(json.loads(to_json(organism)))}
