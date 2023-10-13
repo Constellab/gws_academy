@@ -104,14 +104,16 @@ class PlotlyHistogram(Task):
             default_value=None,
             optional=True,
             human_name="Normalization",
-            short_description="Histogram normalization ('percent', 'probability', 'density', 'probability density').",
+            short_description="Histogram normalization",
+            allowed_values=['percent', 'probability', 'density', 'probability density'],
             visibility="protected",
         ),
         'barmode': StrParam(
             default_value=None,
             optional=True,
             human_name="Bar Mode",
-            short_description="Bar mode for stacked or grouped histograms ('stack', 'group', 'overlay', 'relative').",
+            short_description="Bar mode for stacked or grouped histograms",
+            allowed_values=['stack', 'group', 'overlay', 'relative'],
             visibility="protected",
         ),
         'log_x': BoolParam(
@@ -132,7 +134,9 @@ class PlotlyHistogram(Task):
 
     def run(self, params: ConfigParams, inputs: TaskInputs) -> TaskOutputs:
         data_frame = pd.DataFrame(inputs['input_table'].get_data())
-
+        for key, i  in params.items() :
+            if i == "" :
+                params[key]= None
         fig = px.histogram(
             data_frame=data_frame,
             x=params['x'],
