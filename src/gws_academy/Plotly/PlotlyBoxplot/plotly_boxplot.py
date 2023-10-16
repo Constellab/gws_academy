@@ -267,6 +267,7 @@ class PlotlyBoxplot(Task):
             for key, i in params.items() :
                 if i == "" :
                     params[key] = None
+            return params
         dataframe = pd.DataFrame(inputs['input_table'].get_data())
         params = is_empty(self, params)
         # Créez le graphique à l'aide de px.box

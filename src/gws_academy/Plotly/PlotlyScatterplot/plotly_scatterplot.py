@@ -7,7 +7,7 @@
 from gws_core import (ConfigParams, InputSpec, InputSpecs, PlotlyResource,
                       OutputSpec, OutputSpecs, StrParam, Table, Task,
                       TaskInputs, TaskOutputs, task_decorator, IntParam,
-                      BoolParam, ListParam)
+                      BoolParam, ListParam, FloatParam)
 from gws_academy import PlotlyTask
 import pandas as pd
 
@@ -22,7 +22,7 @@ class PlotlyScatterplot(PlotlyTask):
     input_specs = super.input_specs
     output_specs = OutputSpecs({'output_plot': OutputSpec(PlotlyResource, human_name="output graph")})
 
-    config_specs = {
+    config_specs = ConfigParams({
         'x': StrParam(
             default_value=None,
             human_name="x-axis",
@@ -281,7 +281,7 @@ class PlotlyScatterplot(PlotlyTask):
             short_description="Set the width of the graph",
             visibility="protected",
         )
-    }
+    })
 
     def run(self, params: ConfigParams, inputs: TaskInputs) -> TaskOutputs:
         dataframe = pd.DataFrame(inputs['input_table'].get_data())
