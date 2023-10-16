@@ -8,7 +8,7 @@ from gws_core import (ConfigParams, InputSpec, InputSpecs, PlotlyResource,
                       OutputSpec, OutputSpecs, StrParam, Table, Task,
                       TaskInputs, TaskOutputs, task_decorator, IntParam,
                       BoolParam, ListParam)
-from gws_academy.PlotlyTask.plotly_task import PlotlyTask
+from gws_academy import PlotlyTask
 import pandas as pd
 
 import plotly.express as px
@@ -194,7 +194,7 @@ class PlotlyScatterplot(PlotlyTask):
             default_value=None,
             visibility='protected',
             human_name="opacity",
-            short_description="opacity of the marks"
+            short_description="opacity of the marks",
             optional = True
         ),
         'size_max' : IntParam(
@@ -234,7 +234,7 @@ class PlotlyScatterplot(PlotlyTask):
             visibility='protected',
             human_name="trendline color",
             short_description="color for the trendline",
-            allowed_values=
+            allowed_values=None
         ),
         'trendline_scope' : StrParam(
             default_value='trace',

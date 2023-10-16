@@ -261,12 +261,12 @@ class PlotlyBoxplot(Task):
         )
     }
 
-    def is_empty(self, params : ConfigParams) -> ConfigParams :
-        for key, i in params.items() :
-            if i == "" :
-                params[key] = None
-    def run(self, params: ConfigParams, inputs: TaskInputs) -> TaskOutputs:
 
+    def run(self, params: ConfigParams, inputs: TaskInputs) -> TaskOutputs:
+        def is_empty(self, params : ConfigParams) -> ConfigParams :
+            for key, i in params.items() :
+                if i == "" :
+                    params[key] = None
         dataframe = pd.DataFrame(inputs['input_table'].get_data())
         params = is_empty(self, params)
         # Créez le graphique à l'aide de px.box

@@ -12,6 +12,9 @@ import plotly.express as px
 @task_decorator("PlotlyTask", human_name="Task Plotly",
                 short_description="General Plotly Task")
 class PlotlyTask(Task):
+    valid_css_colours =[
+        "black", "white", "red", "green", "blue", "yellow", "orange", "pink",
+        "purple", "brown", "gray", "cyan", "magenta", "lime","teal", "navy" ]
     input_specs = InputSpecs({'input_table': InputSpec(Table, human_name="input_table")})
 
     output_specs = OutputSpecs({'output_plot': OutputSpec(PlotlyResource, human_name="output graph")})
@@ -186,3 +189,6 @@ class PlotlyTask(Task):
             short_description="Height of the graph",
             visibility="protected"
         ),}
+
+    def run(self, params: ConfigParams, inputs: TaskInputs) -> TaskOutputs:
+        pass
