@@ -8,7 +8,7 @@ from gws_core import (ConfigParams, InputSpec, InputSpecs, PlotlyResource,
                       OutputSpec, OutputSpecs, StrParam, Table, Task,
                       TaskInputs, TaskOutputs, task_decorator, IntParam,
                       BoolParam, ListParam, FloatParam)
-from gws_academy import PlotlyTask
+from gws_academy.Plotly import PlotlyTask
 import pandas as pd
 
 import plotly.express as px
@@ -132,7 +132,7 @@ class PlotlyScatterplot(PlotlyTask):
             default_value=None,
             optional=True,
             human_name="min X error",
-            short_description=" Either a name of a column in data_frame, or a pandas Series or array_like object. Values from this column or array_like are used to size x-axis error bars in the negative direction.",
+            short_description="Either a name of a column in data_frame, or a pandas Series . Values from this column or array_like are used to size x-axis error bars in the negative direction.",
             visibility='protected'
         ),
         'error_y' : StrParam(
