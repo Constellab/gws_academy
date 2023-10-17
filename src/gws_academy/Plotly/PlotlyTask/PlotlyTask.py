@@ -218,7 +218,38 @@ class PlotlyTask(Task):
         ),
         **config_specs_facet,
         **config_specs_hover,
-        }
+    }
+    bar_box_violin = {
+        'color': StrParam(
+            default_value=None,
+            optional=True,
+            human_name="Color",
+            short_description="Column name for color encoding",
+            visibility="protected"
+        ),
+        'color_discrete_sequence': StrParam(
+            default_value=None,
+            optional=True,
+            human_name="Color Discrete Sequence",
+            short_description="Custom color sequence for discrete colors",
+            visibility="protected"
+        ),
+        'color_discrete_map': StrParam(
+            default_value=None,
+            optional=True,
+            human_name="Color Discrete Map",
+            short_description="Custom color mapping for discrete colors",
+            visibility="protected"
+        ),
+        'orientation': StrParam(
+            default_value='v',
+            optional=True,
+            human_name="Orientation",
+            short_description="Orientation of the box plot ('v' for vertical, 'h' for horizontal)",
+            allowed_values=['v', 'h'],
+            visibility="protected"
+        ),
+    }
 
     def run(self, params: ConfigParams, inputs: TaskInputs) -> TaskOutputs:
-        pass
+        

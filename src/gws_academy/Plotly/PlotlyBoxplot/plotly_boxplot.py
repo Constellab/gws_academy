@@ -5,7 +5,7 @@
 
 
 from gws_core import (ConfigParams, InputSpec, InputSpecs, PlotlyResource,
-                      OutputSpec, OutputSpecs, StrParam, Table, Task,
+                      OutputSpec, OutputSpecs, StrParam, Table,
                       TaskInputs, TaskOutputs, task_decorator, IntParam,
                       BoolParam, FloatParam, ListParam)
 
@@ -17,45 +17,15 @@ import plotly.express as px
 
 
 @task_decorator(unique_name="PlotlyBoxplot", human_name="Boxplot Plotly",
-                short_description="")
+                short_description="Boxplot from Plotly")
 class PlotlyBoxplot(PlotlyTask):
-    input_specs = InputSpecs({'input_table': InputSpec(Table, human_name="input_table")})
+    input_specs = PlotlyTask.input_specs
 
-    output_specs = OutputSpecs({'output_plot': OutputSpec(PlotlyResource, human_name="output graph")})
+    output_specs = PlotlyTask.output_specs
 
     config_specs = {
-        **PlotlyTask.config_specs_base,
+        **PlotlyTask.config_specs_d2,
         #base params
-
-        'color': StrParam(
-            default_value=None,
-            optional=True,
-            human_name="Color",
-            short_description="name of a column to colour the marks",
-            visibility="protected"
-        ),
-        'color_discrete_sequence': StrParam(
-            default_value=None,
-            optional=True,
-            human_name="Color Discrete Sequence",
-            short_description="Custom color sequence for discrete colors",
-            visibility="protected"
-        ),
-        'color_discrete_map': StrParam(
-            default_value=None,
-            optional=True,
-            human_name="Color Discrete Map",
-            short_description="Custom color mapping for discrete colors",
-            visibility="protected"
-        ),
-        'orientation': StrParam(
-            default_value='v',
-            optional=True,
-            human_name="Orientation",
-            short_description="Orientation of the box plot ('v' for vertical, 'h' for horizontal)",
-            allowed_values=['v', 'h'],
-            visibility="protected"
-        ),
         'boxmode': StrParam(
             default_value='group',
             optional=True,
@@ -76,6 +46,7 @@ class PlotlyBoxplot(PlotlyTask):
             human_name="notches",
             short_description="if True, boxes are drawn with notches"
         ),
+        **PlotlyTask.config_specs_layout,
     }
 
 
@@ -121,7 +92,10 @@ class PlotlyBoxplot(PlotlyTask):
             notched=params["notched"],
             template=params['template'],
             width=params['width'],
-            height=params['height']
+            height=params['height'],
+
+
+
         )
 
         # Mise à jour des axes

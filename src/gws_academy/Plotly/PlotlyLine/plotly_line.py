@@ -17,11 +17,13 @@ import plotly.express as px
 
 
 @task_decorator("PlotlyLine", human_name="Line Plotly",
-                short_description="line plot from plotly(px)")
+                short_description="line plot from plotly")
 class PlotlyLine(PlotlyTask):
 
-    input_specs = InputSpecs({'input_table': InputSpec(Table, human_name="input_table")})
-    output_specs = OutputSpecs({'output_plot': OutputSpec(PlotlyResource, human_name="output graph")})
+    input_specs = PlotlyTask.input_specs
+
+    output_specs = PlotlyTask.output_specs
+
 
     config_specs = {
         **PlotlyTask.config_specs_d2,

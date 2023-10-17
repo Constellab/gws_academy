@@ -5,7 +5,7 @@
 
 
 from gws_core import (ConfigParams, InputSpec, InputSpecs, PlotlyResource,
-                      OutputSpec, OutputSpecs, StrParam, Table, Task,
+                      OutputSpec, OutputSpecs, StrParam, Table,
                       TaskInputs, TaskOutputs, task_decorator, IntParam,
                       BoolParam, FloatParam, ListParam)
 
@@ -16,82 +16,25 @@ import plotly.express as px
 
 
 @task_decorator(unique_name="PlotlyBarplot", human_name="Barplot Plotly",
-                short_description="")
+                short_description="Bar plot and Stack bar plot from plotly")
 class PlotlyBarplot(PlotlyTask):
-    input_specs = InputSpecs({'input_table': InputSpec(Table, human_name="input_table")})
+    input_specs = PlotlyTask.input_specs
 
-    output_specs = OutputSpecs({'output_plot': OutputSpec(PlotlyResource, human_name="output graph")})
+    output_specs = PlotlyTask.output_specs
 
     config_specs = {
-        **PlotlyTask.config_specs,
+        **PlotlyTask.config_specs_d2,
         #base params
-        'y_bar': StrParam(
-            default_value=None,
-            optional=True,
-            human_name="y-axis",
-            short_description="Column name for the y-axis"
-        ),
-        'y_stackbar' : ListParam(
-            default_value=None,
-            optional=True,
-            human_name="y stackbar",
-            short_description="list of y to stack"
-        ),
-        'title': StrParam(
-            default_value=None,
-            optional=True,
-            human_name="Title",
-            short_description="Title of the graph"
-        ),
-        'y_axis_name': StrParam(
-            default_value=None,
-            optional=True,
-            human_name="Y Axis Name",
-            short_description=""
-        ),
-        'x_axis_name': StrParam(
-            default_value=None,
-            optional=True,
-            human_name="X Axis Name",
-            short_description=""
-        ),
-        'color': StrParam(
-            default_value=None,
-            optional=True,
-            human_name="Color",
-            short_description="Column name for color encoding",
-            visibility="protected"
-        ),
-        'color_discrete_sequence': StrParam(
-            default_value=None,
-            optional=True,
-            human_name="Color Discrete Sequence",
-            short_description="Custom color sequence for discrete colors",
-            visibility="protected"
-        ),
-        'color_discrete_map': StrParam(
-            default_value=None,
-            optional=True,
-            human_name="Color Discrete Map",
-            short_description="Custom color mapping for discrete colors",
-            visibility="protected"
-        ),
-        'orientation': StrParam(
-            default_value='v',
-            optional=True,
-            human_name="Orientation",
-            short_description="Orientation of the box plot ('v' for vertical, 'h' for horizontal)",
-            allowed_values=['v', 'h'],
-            visibility="protected"
-        ),
+        **PlotlyTask.bar_box_violin,
         'barmode': StrParam(
             default_value='relative',
             optional=True,
             human_name="Box Mode",
             allowed_values=["relative", 'group','overlay'],
-            short_description="Box mode ('group' or 'overlay')",
+            short_description="In 'relative' mode, bars are stacked above zero for positive values and below zero for negative values. In 'overlay' mode, bars are drawn on top of one another. In 'group' mode, bars are placed beside each other.",
             visibility="protected"
         ),
+        **PlotlyTask.config_specs_layout,
     }
 
     def run(self, params: ConfigParams, inputs: TaskInputs) -> TaskOutputs:
@@ -101,7 +44,7 @@ class PlotlyBarplot(PlotlyTask):
         fig = px.bar(
             data_frame=dataframe,
             x=params['x'],
-            y=params['y_stackbar'],
+            y=params['y'],
             title=params['title'],
             color=params['color'],
             #facet params
@@ -117,6 +60,7 @@ class PlotlyBarplot(PlotlyTask):
             animation_frame=params['animation_frame'],
             animation_group=params['animation_group'],
             category_orders=params['category_orders'],
+            labels = dict(zip(params['label_columns'], params['label_text'])),
             color_discrete_sequence=params['color_discrete_sequence'],
             color_discrete_map=params['color_discrete_map'],
             orientation=params['orientation'],

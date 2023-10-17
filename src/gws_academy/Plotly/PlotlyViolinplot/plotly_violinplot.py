@@ -17,43 +17,15 @@ import plotly.express as px
 
 
 @task_decorator(unique_name="PlotlyViolinplot", human_name="Violinplot Plotly",
-                short_description="")
-class PlotlyViolinplot(Task):
+                short_description="Violin plot from plotly")
+class PlotlyViolinplot(PlotlyTask):
     input_specs = PlotlyTask.input_specs
 
     output_specs = PlotlyTask.output_specs
 
     config_specs = {
         #base params
-        'color': StrParam(
-            default_value=None,
-            optional=True,
-            human_name="Color",
-            short_description="Column name for color encoding",
-            visibility="protected"
-        ),
-        'color_discrete_sequence': StrParam(
-            default_value=None,
-            optional=True,
-            human_name="Color Discrete Sequence",
-            short_description="Custom color sequence for discrete colors",
-            visibility="protected"
-        ),
-        'color_discrete_map': StrParam(
-            default_value=None,
-            optional=True,
-            human_name="Color Discrete Map",
-            short_description="Custom color mapping for discrete colors",
-            visibility="protected"
-        ),
-        'orientation': StrParam(
-            default_value='v',
-            optional=True,
-            human_name="Orientation",
-            short_description="Orientation of the box plot ('v' for vertical, 'h' for horizontal)",
-            allowed_values=['v', 'h'],
-            visibility="protected"
-        ),
+        **PlotlyTask.config_specs_d2,
         'violinmode': StrParam(
             default_value='group',
             optional=True,
@@ -73,8 +45,8 @@ class PlotlyViolinplot(Task):
             optional=True,
             human_name="notches",
             short_description="if True, boxes are drawn with notches"
-
         ),
+        **PlotlyTask.config_specs_layout
     }
 
 

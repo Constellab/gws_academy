@@ -5,9 +5,10 @@
 
 
 from gws_core import (ConfigParams, InputSpec, InputSpecs, PlotlyResource,
-                      OutputSpec, OutputSpecs, StrParam, Table, Task, FloatParam,
+                      OutputSpec, OutputSpecs, StrParam, Table, FloatParam,
                       TaskInputs, TaskOutputs, task_decorator, IntParam,
                       BoolParam)
+
 from gws_academy.Plotly.PlotlyTask.PlotlyTask import PlotlyTask
 import pandas as pd
 
@@ -17,81 +18,20 @@ import plotly.express as px
 
 @task_decorator("PlotlyHistogram", human_name="Histogram Plotly",
                 short_description="Histogram plot from plotly(px)")
-class PlotlyHistogram(Task):
+class PlotlyHistogram(PlotlyTask):
 
     input_specs = InputSpecs({'input_table': InputSpec(Table, human_name="input_table")})
     output_specs = OutputSpecs({'output_plot': OutputSpec(PlotlyResource, human_name="output graph")})
 
     config_specs = {
-        'x': StrParam(
-            default_value=None,
-            human_name="x-axis",
-            short_description="The column name to use for the x-axis."
-        ),
-        'title': StrParam(
+        **PlotlyTask.config_specs_d2,
+        'marginal': StrParam(
             default_value=None,
             optional=True,
-            human_name="Title",
-            short_description="The title of the histogram."
-        ),
-        'y_axis_name': StrParam(
-            default_value=None,
-            optional=True,
-            human_name="Y Axis Name",
-            short_description=""
-        ),
-        'x_axis_name': StrParam(
-            default_value=None,
-            optional=True,
-            human_name="X Axis Name",
-            short_description=""
-        ),
-        'color': StrParam(
-            default_value=None,
-            optional=True,
-            human_name="Color",
-            short_description="The column name to use for coloring the histogram bars."
-        ),
-        'hover_data': StrParam(
-            default_value=None,
-            optional=True,
-            human_name="Hover Data",
-            short_description="Columns to display when hovering over histogram bars."
-        ),
-        'facet_col': StrParam(
-            default_value=None,
-            optional=True,
-            human_name="Facet Column",
-            short_description="Column to facet the histogram into subplots by columns.",
-            visibility="protected",
-        ),
-        'facet_row': StrParam(
-            default_value=None,
-            optional=True,
-            human_name="Facet Row",
-            short_description="Column to facet the histogram into subplots by rows.",
-            visibility="protected",
-        ),
-        'facet_col_wrap': IntParam(
-            default_value=None,
-            optional=True,
-            human_name="Facet Col Wrap",
-            short_description="Maximum number of facet columns to display",
-            visibility="protected",
-        ),
-        'height': IntParam(
-            default_value=None,
-            optional=True,
-            human_name="Height",
-            short_description="The height of the histogram plot.",
-            visibility="protected",
-        ),
-        'width': IntParam(
-            default_value=None,
-            optional=True,
-            human_name="Width",
-            short_description="The width of the histogram plot.",
-            visibility="protected",
+            visibility='protected',
+            human_name='marginal plot',
+            short_description="if set, a subplot is drawn alongside the main plot, visualising the distribution",
+            allowed_values=['rug', 'box','violin','histogram']
         ),
         'opacity': FloatParam(
             default_value=None,
@@ -99,6 +39,14 @@ class PlotlyHistogram(Task):
             human_name="Opacity",
             short_description="Opacity of histogram bars (0 to 1).",
             visibility="protected",
+        ),
+        'barnorm' : StrParam(
+            default_value=None,
+            optional=true,
+            visibility='protected',
+            human_name="bar normalisation",
+            short_description="If 'fraction', the value of each bar is divided by the sum of all values at that location coordinate. 'percent' is the same but multiplied by 100 to show percentages. None will stack up all values at each location coordinate.",
+            allowed_values=['fraction', 'percent']
         ),
         'histnorm': StrParam(
             default_value=None,
@@ -108,6 +56,27 @@ class PlotlyHistogram(Task):
             allowed_values=['percent', 'probability', 'density', 'probability density'],
             visibility="protected",
         ),
+        'histfunc': StrParam(
+            default_value='count',
+            optional=True,
+            human_name='histogram function',
+            short_description='Function used to aggregate values for summarization',
+            allowed_values=['count', 'sum', 'avg', 'min', 'max']
+        ),
+        'cumulative' :BoolParam(
+            default_value=False,
+            optional=True,
+            human_name='cumulative',
+            short_description='cumulative or not',
+
+        ),
+        'nbins' : IntParam(
+            default_value=None,
+            optional=True,
+            visibility='protected',
+            short_description='Sets the number of bins',
+            human_name='nb of bins'
+        ),
         'barmode': StrParam(
             default_value=None,
             optional=True,
@@ -116,43 +85,56 @@ class PlotlyHistogram(Task):
             allowed_values=['stack', 'group', 'overlay', 'relative'],
             visibility="protected",
         ),
-        'log_x': BoolParam(
-            default_value=False,
-            optional=True,
-            human_name="Log X Axis",
-            short_description="Set X axis to logarithmic scale.",
-            visibility="protected",
-        ),
-        'log_y': BoolParam(
-            default_value=False,
-            optional=True,
-            human_name="Log Y Axis",
-            short_description="Set Y axis to logarithmic scale.",
-            visibility="protected",
-        )
+        **PlotlyTask.config_specs_layout,
     }
 
     def run(self, params: ConfigParams, inputs: TaskInputs) -> TaskOutputs:
-        data_frame = pd.DataFrame(inputs['input_table'].get_data())
+        dataframe = pd.DataFrame(inputs['input_table'].get_data())
         for key, i  in params.items() :
             if i == "" :
                 params[key]= None
         fig = px.histogram(
-            data_frame=data_frame,
+            data_frame=dataframe,
             x=params['x'],
+            y=params['y'],
             title=params['title'],
             color=params['color'],
-            hover_data=params['hover_data'],
-            facet_col=params['facet_col'],
-            facet_row=params['facet_row'],
-            facet_col_wrap=params['facet_col_wrap'],
-            height=params['height'],
-            width=params['width'],
+            #specific params
+            marginal=params['marginal'],
             opacity=params['opacity'],
+            barnorm=parmas['barnorm'],
             histnorm=params['histnorm'],
+            histfunc=params['histfunc'],
+            cumulative=params['cumulative'],
+            nbins=params['nbins'],
+            #layout params
+            #facet params
+            facet_row=params['facet_row'],
+            facet_col=params['facet_col'],
+            facet_col_wrap=params['facet_col_wrap'],
+            facet_row_spacing=params['facet_row_spacing'],
+            facet_col_spacing=params['facet_col_spacing'],
+            #hover params
+            hover_name=params['hover_name'],
+            hover_data=params['hover_data'],
+            animation_frame=params['animation_frame'],
+            animation_group=params['animation_group'],
+            category_orders=params['category_orders'],
+            labels = dict(zip(params['label_columns'], params['label_text'])),
+            color_discrete_sequence=params['color_discrete_sequence'],
+            color_discrete_map=params['color_discrete_map'],
+            orientation=params['orientation'],
             barmode=params['barmode'],
             log_x=params['log_x'],
-            log_y=params['log_y']
+            log_y=params['log_y'],
+            range_x=params['range_x'],
+            range_y=params['range_y'],
+            template=params['template'],
+            width=params['width'],
+            height=params['height']
         )
+        # Mise à jour des axes
+        fig.update_xaxes(title=params['x_axis_name'])
+        fig.update_yaxes(title=params['y_axis_name'])
 
         return {"output_plot": PlotlyResource(fig)}
