@@ -8,7 +8,7 @@ from gws_core import (ConfigParams, InputSpec, InputSpecs, PlotlyResource,
                       OutputSpec, OutputSpecs, StrParam, Table, Task,
                       TaskInputs, TaskOutputs, task_decorator, IntParam,
                       BoolParam, ListParam, FloatParam)
-from gws_academy.Plotly import PlotlyTask
+from gws_academy.Plotly.PlotlyTask import PlotlyTask
 import pandas as pd
 
 import plotly.express as px
@@ -22,12 +22,8 @@ class PlotlyScatterplot(PlotlyTask):
     input_specs = super.input_specs
     output_specs = OutputSpecs({'output_plot': OutputSpec(PlotlyResource, human_name="output graph")})
 
-    config_specs = ConfigParams({
-        'x': StrParam(
-            default_value=None,
-            human_name="x-axis",
-            short_description="Indicate the name of the Serie for the x-axis"
-        ),
+    config_specs ={
+        **PlotlyTask.config_specs,
         'y': StrParam(
             default_value=None,
             human_name="y-axis",
@@ -51,75 +47,11 @@ class PlotlyScatterplot(PlotlyTask):
             human_name="columns for the size",
             short_description=""
         ),
-        'y_axis_name': StrParam(
-            default_value=None,
-            optional=True,
-            human_name="y axis name",
-            short_description="",
-        ),
-        'x_axis_name': StrParam(
-            default_value=None,
-            optional=True,
-            human_name="x axis name",
-            short_description="",
-        ),
-        'title': StrParam(
-            default_value=None,
-            optional=True,
-            human_name="Title of the graph ",
-            short_description="",
-        ),
-        'hover_data': StrParam(
-            default_value=None,
-            optional=True,
-            human_name="Hover Data",
-            short_description="Columns to display when hovering over data points",
-        ),
-        'custom_data' : ListParam (
-            default_value=None,
-            optional=True,
-            visibility='protected',
-            human_name= 'extra data',
-            short_description=' Values from these columns are extra data, to be used in widgets or Dash callbacks for example',
-        ),
         'text' : StrParam(
             default_value=None,
             optional=True,
             human_name="text labels",
             short_description="Either a name of a column in data_frame, or a pandas Series or array_like object. Values from this column or array_like appear in the figure as text labels."
-        ),
-        'facet_col': StrParam(
-            default_value=None,
-            optional=True,
-            human_name="Facet Column",
-            short_description="Column to facet the plot into subplots by",
-        ),
-        'facet_row': StrParam(
-            default_value=None,
-            optional=True,
-            human_name="Facet Row",
-            short_description="Column to facet the plot into subplots by (rows)",
-        ),
-        'facet_col_wrap': IntParam(
-            default_value=None,
-            optional=True,
-            human_name="Facet Col Wrap",
-            short_description="Maximum number of facet columns to display",
-            visibility="protected",
-        ),
-        'facet_row_spacing' : FloatParam(
-            default_value=None,
-            optional=True,
-            human_name="Facet row Spacing",
-            short_description="Spacing between facet rows, in paper units. Default is 0.03 or 0.0.7 when facet_col_wrap is used.",
-            visibility="protected"
-        ),
-        'facet_col_spacing' : FloatParam(
-            default_value=None,
-            optional=True,
-            human_name="Facet col Spacing",
-            short_description="Spacing between facet columns, in paper units. Default is 0.03 or 0.0.7 when facet_col_wrap is used.",
-            visibility="protected"
         ),
         'error_x' : StrParam(
             default_value=None,
@@ -149,20 +81,6 @@ class PlotlyScatterplot(PlotlyTask):
             short_description=" Either a name of a column in data_frame, or a pandas Series or array_like object. Values from this column or array_like are used to size x-axis error bars in the negative direction.",
             visibility='protected'
         ),
-        'animation_frame': StrParam(
-            default_value=None,
-            optional=True,
-            human_name="Animation Frame",
-            short_description="Column for animation frame",
-            visibility="protected",
-        ),
-        'animation_group': StrParam(
-            default_value=None,
-            optional=True,
-            human_name="Animation Group",
-            short_description="Column for grouping data points in animations",
-            visibility="protected",
-        ),
         #'category_order_keys'
         #'category_orders_vals'
         'labels_keys' : ListParam(
@@ -188,8 +106,8 @@ class PlotlyScatterplot(PlotlyTask):
             allowed_values=['v', 'h']
         ),
         #color_discrete #color_discrete_map #color_continuous_scale
-            #range_color #color_continuous_midpoint
-            #symbol_sequence #symbol_map
+        #range_color #color_continuous_midpoint
+        #symbol_sequence #symbol_map
         'opacity' : FloatParam(
             default_value=None,
             visibility='protected',
@@ -244,20 +162,6 @@ class PlotlyScatterplot(PlotlyTask):
             short_description=' one trend line per race',
             allowed_values=['trace', 'overall']
         ),
-        'log_x': BoolParam(
-            default_value=False,
-            optional=True,
-            human_name="Log X Axis",
-            short_description="Set X axis to logarithmic scale",
-            visibility="protected",
-        ),
-        'log_y': BoolParam(
-            default_value=False,
-            optional=True,
-            human_name="Log Y Axis",
-            short_description="Set Y axis to logarithmic scale",
-            visibility="protected",
-        ),
         #range_x #range_y
         'render_mode': StrParam(
             default_value=None,
@@ -267,21 +171,8 @@ class PlotlyScatterplot(PlotlyTask):
             short_description="Set the render mode for points (e.g., 'webgl' or 'svg')",
             visibility="protected",
         ),
-        'height': IntParam(
-            default_value=None,
-            optional=True,
-            human_name="Height",
-            short_description="Set the height of the graph",
-            visibility="protected",
-        ),
-        'width': IntParam(
-            default_value=None,
-            optional=True,
-            human_name="Width",
-            short_description="Set the width of the graph",
-            visibility="protected",
-        )
-    })
+
+    }
 
     def run(self, params: ConfigParams, inputs: TaskInputs) -> TaskOutputs:
         dataframe = pd.DataFrame(inputs['input_table'].get_data())
