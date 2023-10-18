@@ -8,7 +8,7 @@ from gws_core import (ConfigParams, InputSpec, InputSpecs, PlotlyResource,
                       OutputSpec, OutputSpecs, StrParam, Table, Task,
                       TaskInputs, TaskOutputs, task_decorator, IntParam,
                       BoolParam, ListParam, FloatParam)
-from gws_academy.Plotly.PlotlyTask import PlotlyTask
+from gws_academy.Plotly.PlotlyTask.plotly_task import PlotlyTask
 import pandas as pd
 
 import plotly.express as px
