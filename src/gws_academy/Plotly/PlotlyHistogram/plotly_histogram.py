@@ -9,7 +9,7 @@ from gws_core import (ConfigParams, InputSpec, InputSpecs, PlotlyResource,
                       TaskInputs, TaskOutputs, task_decorator, IntParam,
                       BoolParam)
 
-from gws_academy.Plotly.PlotlyTask.PlotlyTask import PlotlyTask
+from gws_academy.Plotly.PlotlyTask.plotly_task import PlotlyTask
 import pandas as pd
 
 import plotly.express as px
@@ -102,7 +102,7 @@ class PlotlyHistogram(PlotlyTask):
             #specific params
             marginal=params['marginal'],
             opacity=params['opacity'],
-            barnorm=parmas['barnorm'],
+            barnorm=params['barnorm'],
             histnorm=params['histnorm'],
             histfunc=params['histfunc'],
             cumulative=params['cumulative'],
