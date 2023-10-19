@@ -8,7 +8,7 @@ from gws_core import (ConfigParams, InputSpec, InputSpecs, PlotlyResource,
                       OutputSpec, OutputSpecs, StrParam, Table, Task,
                       TaskInputs, TaskOutputs, task_decorator, IntParam,
                       BoolParam, ListParam, FloatParam)
-                      
+
 from gws_academy.Plotly.PlotlyTask.plotly_task import PlotlyTask
 import pandas as pd
 
@@ -20,22 +20,12 @@ import plotly.express as px
                 short_description="Scatter plot from plotly(px)")
 class PlotlyScatterplot(PlotlyTask):
 
-    input_specs = super.input_specs
+    input_specs = InputSpecs({'input_table': InputSpec(Table, human_name="input_table")})
     output_specs = OutputSpecs({'output_plot': OutputSpec(PlotlyResource, human_name="output graph")})
 
     config_specs ={
-        **PlotlyTask.config_specs,
-        'y': StrParam(
-            default_value=None,
-            human_name="y-axis",
-            short_description="Indicate the Series to plot"
-        ),
-        'colour': StrParam(
-            default_value=None,
-            optional=True,
-            human_name="colour",
-            short_description="can be a css color, one color per line"
-        ),
+        **PlotlyTask.config_specs_d2,
+
         'symbol': StrParam(
             default_value=None,
             optional=True,
@@ -172,6 +162,7 @@ class PlotlyScatterplot(PlotlyTask):
             short_description="Set the render mode for points (e.g., 'webgl' or 'svg')",
             visibility="protected",
         ),
+        **PlotlyTask.config_specs_layout
 
     }
 

@@ -39,6 +39,13 @@ class PlotlyBarplot(PlotlyTask):
 
     def run(self, params: ConfigParams, inputs: TaskInputs) -> TaskOutputs:
         dataframe = pd.DataFrame(inputs['input_table'].get_data())
+        for key, i  in params.items() :
+            if i == "" :
+                params[key]= None
+        if params['label_columns'] is not None :
+            labels = dict(params['label_columns'], params['label_text'])
+        else:
+            labels = None
 
         # Créez le graphique à l'aide de px.box
         fig = px.bar(
@@ -60,7 +67,7 @@ class PlotlyBarplot(PlotlyTask):
             animation_frame=params['animation_frame'],
             animation_group=params['animation_group'],
             category_orders=params['category_orders'],
-            labels = dict(zip(params['label_columns'], params['label_text'])),
+            labels = labels,
             color_discrete_sequence=params['color_discrete_sequence'],
             color_discrete_map=params['color_discrete_map'],
             orientation=params['orientation'],

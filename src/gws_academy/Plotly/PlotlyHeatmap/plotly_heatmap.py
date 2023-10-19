@@ -6,7 +6,7 @@
 
 from gws_core import (ConfigParams, InputSpec, InputSpecs, PlotlyResource,
                       OutputSpec, OutputSpecs, StrParam, Table, Task,
-                      TaskInputs, TaskOutputs, task_decorator, BoolParam
+                      TaskInputs, TaskOutputs, task_decorator, BoolParam,
                       ListParam)
 
 import plotly.graph_objects as go
@@ -67,7 +67,7 @@ class PlotlyHeatmap(Task):
             human_name="color scale",
             short_description="Determine the color scale"
         ),
-        'upper_dendrogram' : Bool
+        'upper_dendrogram' : BoolParam()
     }
 
     def run(self, params: ConfigParams, inputs: TaskInputs) -> TaskOutputs:

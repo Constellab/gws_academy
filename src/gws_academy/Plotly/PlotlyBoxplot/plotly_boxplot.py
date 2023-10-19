@@ -26,6 +26,7 @@ class PlotlyBoxplot(PlotlyTask):
     config_specs = {
         **PlotlyTask.config_specs_d2,
         #base params
+        **PlotlyTask.bar_box_violin,
         'boxmode': StrParam(
             default_value='group',
             optional=True,
@@ -51,18 +52,21 @@ class PlotlyBoxplot(PlotlyTask):
 
 
     def run(self, params: ConfigParams, inputs: TaskInputs) -> TaskOutputs:
-        def is_empty(self, params : ConfigParams) -> ConfigParams :
-            for key, i in params.items() :
-                if i == "" :
-                    params[key] = None
-            return params
         dataframe = pd.DataFrame(inputs['input_table'].get_data())
-        params = is_empty(self, params)
+        for key, i  in params.items() :
+            if i == "" :
+                params[key]= None
+        if params['label_columns'] is not None :
+            labels = dict(params['label_columns'], params['label_text'])
+        else:
+            labels = None
+
+
         # Créez le graphique à l'aide de px.box
         fig = px.box(
             data_frame=dataframe,
             x=params['x'],
-            y=params['y_stackbar'],
+            y=params['y'],
             title=params['title'],
             color=params['color'],
             #facet params
@@ -75,7 +79,7 @@ class PlotlyBoxplot(PlotlyTask):
             hover_name=params['hover_name'],
             hover_data=params['hover_data'],
             custom_data=params['custom_data'],
-            labels = dict(zip(params['label_columns'], params['label_text'])),
+            labels = labels,
             #animation params
             animation_frame=params['animation_frame'],
             animation_group=params['animation_group'],
@@ -93,9 +97,6 @@ class PlotlyBoxplot(PlotlyTask):
             template=params['template'],
             width=params['width'],
             height=params['height'],
-
-
-
         )
 
         # Mise à jour des axes

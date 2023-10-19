@@ -81,7 +81,9 @@ class PlotlyLine(PlotlyTask):
     def run(self, params: ConfigParams, inputs: TaskInputs) -> TaskOutputs:
     # Get the data frame from the input
         dataframe = pd.DataFrame(inputs['input_table'].get_data())
-
+        for key, i  in params.items() :
+            if i == "" :
+                params[key]= None
         # Create the line plot using Plotly Express
         fig = px.line(
             data_frame=dataframe,

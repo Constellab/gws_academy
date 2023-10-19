@@ -25,6 +25,12 @@ class PlotlyHistogram(PlotlyTask):
 
     config_specs = {
         **PlotlyTask.config_specs_d2,
+                'color': StrParam(
+            default_value=None,
+            optional=True,
+            human_name="Color",
+            short_description="clomuns for the color"
+        ),
         'marginal': StrParam(
             default_value=None,
             optional=True,
@@ -42,7 +48,7 @@ class PlotlyHistogram(PlotlyTask):
         ),
         'barnorm' : StrParam(
             default_value=None,
-            optional=true,
+            optional=True,
             visibility='protected',
             human_name="bar normalisation",
             short_description="If 'fraction', the value of each bar is divided by the sum of all values at that location coordinate. 'percent' is the same but multiplied by 100 to show percentages. None will stack up all values at each location coordinate.",
@@ -86,6 +92,7 @@ class PlotlyHistogram(PlotlyTask):
             visibility="protected",
         ),
         **PlotlyTask.config_specs_layout,
+        **PlotlyTask.bar_box_violin,
     }
 
     def run(self, params: ConfigParams, inputs: TaskInputs) -> TaskOutputs:
@@ -93,6 +100,12 @@ class PlotlyHistogram(PlotlyTask):
         for key, i  in params.items() :
             if i == "" :
                 params[key]= None
+        if params['label_columns'] is not None :
+            labels = dict(params['label_columns'], params['label_text'])
+        else:
+            labels = None
+
+            
         fig = px.histogram(
             data_frame=dataframe,
             x=params['x'],
@@ -120,7 +133,7 @@ class PlotlyHistogram(PlotlyTask):
             animation_frame=params['animation_frame'],
             animation_group=params['animation_group'],
             category_orders=params['category_orders'],
-            labels = dict(zip(params['label_columns'], params['label_text'])),
+            labels = labels,
             color_discrete_sequence=params['color_discrete_sequence'],
             color_discrete_map=params['color_discrete_map'],
             orientation=params['orientation'],
