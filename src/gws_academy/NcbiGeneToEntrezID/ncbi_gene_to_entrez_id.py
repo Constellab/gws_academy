@@ -3,15 +3,17 @@
 # The use and distribution of this software is prohibited without the prior consent of Gencovery SAS.
 # About us: https://gencovery.com
 
+import os
 
-from gws_core import (ConfigParams, InputSpec, InputSpecs,
-                      OutputSpec, OutputSpecs, Table, Task, BoolParam, StrParam,
-                      TaskInputs, TaskOutputs, task_decorator)
+from gws_core import (CondaShellProxy, ConfigParams,  InputSpec,InputSpecs,
+                      MessageDispatcher, OutputSpec, OutputSpecs, PipShellProxy, Task, TaskInputs, TaskOutputs,
+                      task_decorator, Table)
+
 from gws_core.config.param.param_spec import IntParam, StrParam
 from gws_core.impl.shell.shell_proxy import ShellProxy
 
 import pandas as pd
-import openpyxl
+
 from mygene import MyGeneInfo
 
 
@@ -34,7 +36,7 @@ class NCBIGeneToENTREZIdHelper():
 
 
 @task_decorator("NCBIGeneToENTREZId", human_name='NCBI Gene to ENTREZ ID', short_description="ADD a new column gene_id corresponding to the gene ENTREZ gene ID")
-class NCBIGeneToENTREZId(task):
+class NCBIGeneToENTREZId(Task):
 
     input_specs = InputSpecs({'input_table': InputSpec(Table, human_name="input_table")})
     output_specs = OutputSpecs({'output_table': OutputSpec(Table, human_name="output_table")})
@@ -43,9 +45,6 @@ class NCBIGeneToENTREZId(task):
 
     def run(self, params: ConfigParams, inputs: TaskInputs) -> TaskOutputs:
         dataframe = pd.DataFrame(inputs['input_table'].get_data())
-
-        # Load the input file
-        input_file = source_paths[0]
 
         def convert_gene_names_to_ids(gene_names):
             mg = MyGeneInfo()
@@ -60,30 +59,12 @@ class NCBIGeneToENTREZId(task):
 
             return gene_ids
 
-        def add_gene_ids_to_xlsx(input_file, output_file):
+        gene_names = dataframe['gene_name']
+        #sheet with all the gene names from column 1 from 2nd row to last one
+        gene_ids = convert_gene_names_to_ids(gene_names)
 
-            sheet = dataframe
-
-            gene_names = [sheet.cell(row=i, column=1).value for i in range(2, sheet.max_row + 1)]
-            #sheet with all the gene names from column 1 from 2nd row to last one
-            gene_ids = convert_gene_names_to_ids(gene_names)
-
-            sheet.insert_cols(2)  # Insert a new column for gene IDs
-            sheet.cell(row=1, column=2, value='gene_id')  # Set the column header as 'gene_id'
-
-            for i, gene_name in enumerate(gene_names, start=2):
-                gene_id = gene_ids.get(gene_name)
-
-                sheet.cell(row=i, column=2, value=gene_id)
-
-            wb.save(output_file)
-
-        # Example usage
-        output_file = 'converted_gene_ids.xlsx'
-        add_gene_ids_to_xlsx(input_file, output_file)
+        dataframe['gene_id'] = gene_names.map(gene_ids)
 
         # Convert the XLSX file to a CSV file while preserving the column name
-        df = pd.read_excel(output_file)
-        df.to_csv('converted_gene_ids.csv', index=False, header=True)
+        return {'output_table' : Table(dataframe)}
 
-        target_paths = ['converted_gene_ids.csv']
