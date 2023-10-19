@@ -4,7 +4,7 @@
 # About us: https://gencovery.com
 
 
-from gws_core import (ConfigParams, InputSpec, InputSpecs, PlotlyResource,
+from gws_core import (ConfigParams, PlotlyResource,
                       OutputSpec, OutputSpecs, StrParam, Table, Task,
                       TaskInputs, TaskOutputs, task_decorator, IntParam,
                       BoolParam)
@@ -79,6 +79,12 @@ class PlotlyLine(PlotlyTask):
         for key, i  in params.items() :
             if i == "" :
                 params[key]= None
+        if params['label_columns'] is not None :
+            labels = dict(params['label_columns'], params['label_text'])
+        else:
+            labels = None
+
+
         # Create the line plot using Plotly Express
         fig = px.line(
             data_frame=dataframe,
@@ -102,6 +108,7 @@ class PlotlyLine(PlotlyTask):
             render_mode=params["render_mode"],
             height=params["height"],
             width=params["width"],
+            labels=labels
         )
 
         # Update axis titles

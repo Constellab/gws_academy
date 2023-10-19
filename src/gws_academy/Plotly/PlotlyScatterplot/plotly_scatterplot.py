@@ -4,10 +4,10 @@
 # About us: https://gencovery.com
 
 
-from gws_core import (ConfigParams, InputSpec, InputSpecs, PlotlyResource,
-                      OutputSpec, OutputSpecs, StrParam, Table, Task,
+from gws_core import (ConfigParams,  PlotlyResource,
+                      StrParam,
                       TaskInputs, TaskOutputs, task_decorator, IntParam,
-                      BoolParam, ListParam, FloatParam)
+                      ListParam, FloatParam)
 
 from gws_academy.Plotly.PlotlyTask.plotly_task import PlotlyTask
 import pandas as pd
@@ -20,8 +20,10 @@ import plotly.express as px
                 short_description="Scatter plot from plotly(px)")
 class PlotlyScatterplot(PlotlyTask):
 
-    input_specs = InputSpecs({'input_table': InputSpec(Table, human_name="input_table")})
-    output_specs = OutputSpecs({'output_plot': OutputSpec(PlotlyResource, human_name="output graph")})
+    input_specs = PlotlyTask.input_specs
+
+    output_specs = PlotlyTask.output_specs
+
 
     config_specs ={
         **PlotlyTask.config_specs_d2,
@@ -168,6 +170,14 @@ class PlotlyScatterplot(PlotlyTask):
 
     def run(self, params: ConfigParams, inputs: TaskInputs) -> TaskOutputs:
         dataframe = pd.DataFrame(inputs['input_table'].get_data())
+        for key, i  in params.items() :
+            if i == "" :
+                params[key]= None
+        if params['label_columns'] is not None :
+            labels = dict(params['label_columns'], params['label_text'])
+        else:
+            labels = None
+
 
         fig = px.scatter(
             data_frame=dataframe,
@@ -191,7 +201,7 @@ class PlotlyScatterplot(PlotlyTask):
             animation_frame=params["animation_frame"],
             animation_group=params["animation_group"],
             #category_orders
-            labels=dict(zip(params['label_columns'], params['label_text'])),
+            labels=labels,
             orientation=params['orientation'],
             #color_discrete #color_discrete_map #color_continuous_scale
             #range_color #color_continuous_midpoint

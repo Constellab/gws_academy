@@ -4,10 +4,9 @@
 # About us: https://gencovery.com
 
 
-from gws_core import (ConfigParams, InputSpec, InputSpecs, PlotlyResource,
-                      OutputSpec, OutputSpecs, StrParam, Table,
-                      TaskInputs, TaskOutputs, task_decorator, IntParam,
-                      BoolParam, FloatParam, ListParam)
+from gws_core import (ConfigParams,  PlotlyResource,
+                      StrParam,
+                      TaskInputs, TaskOutputs, task_decorator,)
 
 from gws_academy.Plotly.PlotlyTask.plotly_task import PlotlyTask
 import pandas as pd

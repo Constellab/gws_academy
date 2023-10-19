@@ -4,8 +4,8 @@
 # About us: https://gencovery.com
 
 
-from gws_core import (ConfigParams, InputSpec, InputSpecs, PlotlyResource,
-                      OutputSpec, OutputSpecs, StrParam, Table, FloatParam,
+from gws_core import (ConfigParams, PlotlyResource,
+                       StrParam,FloatParam,
                       TaskInputs, TaskOutputs, task_decorator, IntParam,
                       BoolParam)
 
@@ -20,8 +20,10 @@ import plotly.express as px
                 short_description="Histogram plot from plotly(px)")
 class PlotlyHistogram(PlotlyTask):
 
-    input_specs = InputSpecs({'input_table': InputSpec(Table, human_name="input_table")})
-    output_specs = OutputSpecs({'output_plot': OutputSpec(PlotlyResource, human_name="output graph")})
+    input_specs = PlotlyTask.input_specs
+
+    output_specs = PlotlyTask.output_specs
+
 
     config_specs = {
         **PlotlyTask.config_specs_d2,

@@ -4,10 +4,10 @@
 # About us: https://gencovery.com
 
 
-from gws_core import (ConfigParams, InputSpec, InputSpecs, PlotlyResource,
-                      OutputSpec, OutputSpecs, StrParam, Table, Task,
-                      TaskInputs, TaskOutputs, task_decorator, IntParam,
-                      BoolParam, FloatParam, ListParam)
+from gws_core import (ConfigParams, PlotlyResource,
+                       StrParam,
+                      TaskInputs, TaskOutputs, task_decorator, 
+                      BoolParam, )
 
 from gws_academy.Plotly.PlotlyTask.plotly_task import PlotlyTask
 import pandas as pd
@@ -25,6 +25,7 @@ class PlotlyViolinplot(PlotlyTask):
     config_specs = {
         #base params
         **PlotlyTask.config_specs_d2,
+        **PlotlyTask.bar_box_violin,
         'violinmode': StrParam(
             default_value='group',
             optional=True,
@@ -50,13 +51,16 @@ class PlotlyViolinplot(PlotlyTask):
 
 
     def run(self, params: ConfigParams, inputs: TaskInputs) -> TaskOutputs:
-        def is_empty(self, params : ConfigParams) -> ConfigParams :
-            for key, i in params.items() :
-                if i == "" :
-                    params[key] = None
-            return params
         dataframe = pd.DataFrame(inputs['input_table'].get_data())
-        params = is_empty(self, params)
+        for key, i  in params.items() :
+            if i == "" :
+                params[key]= None
+        if params['label_columns'] is not None :
+            labels = dict(params['label_columns'], params['label_text'])
+        else:
+            labels = None
+
+
         # Créez le graphique à l'aide de px.box
         fig = px.violin(
             data_frame=dataframe,
@@ -74,7 +78,7 @@ class PlotlyViolinplot(PlotlyTask):
             hover_name=params['hover_name'],
             hover_data=params['hover_data'],
             custom_data=params['custom_data'],
-            labels = dict(zip(params['label_columns'], params['label_text'])),
+            labels = labels,
             #animation params
             animation_frame=params['animation_frame'],
             animation_group=params['animation_group'],
