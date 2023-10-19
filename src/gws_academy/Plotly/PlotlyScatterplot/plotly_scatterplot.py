@@ -174,7 +174,7 @@ class PlotlyScatterplot(PlotlyTask):
             x=params['x'],
             y=params['y'],
             title=params['title'],
-            color=params['colour'],
+            color=params['color'],
             size=params["size"],
             symbol=params["symbol"],
             hover_name=params["hover_name"],

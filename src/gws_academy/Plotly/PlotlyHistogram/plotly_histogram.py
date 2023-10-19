@@ -25,12 +25,7 @@ class PlotlyHistogram(PlotlyTask):
 
     config_specs = {
         **PlotlyTask.config_specs_d2,
-                'color': StrParam(
-            default_value=None,
-            optional=True,
-            human_name="Color",
-            short_description="clomuns for the color"
-        ),
+
         'marginal': StrParam(
             default_value=None,
             optional=True,
@@ -105,7 +100,7 @@ class PlotlyHistogram(PlotlyTask):
         else:
             labels = None
 
-            
+
         fig = px.histogram(
             data_frame=dataframe,
             x=params['x'],

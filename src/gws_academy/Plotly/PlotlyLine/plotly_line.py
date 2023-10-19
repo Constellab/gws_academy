@@ -27,12 +27,7 @@ class PlotlyLine(PlotlyTask):
 
     config_specs = {
         **PlotlyTask.config_specs_d2,
-        'color': StrParam(
-            default_value=None,
-            optional=True,
-            human_name="Color",
-            short_description="clomuns for the color"
-        ),
+
         'symbol': StrParam(
             default_value=None,
             optional=True,

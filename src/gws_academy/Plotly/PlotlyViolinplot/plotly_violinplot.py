@@ -61,7 +61,7 @@ class PlotlyViolinplot(PlotlyTask):
         fig = px.violin(
             data_frame=dataframe,
             x=params['x'],
-            y=params['y_stackbar'],
+            y=params['y'],
             title=params['title'],
             color=params['color'],
             #facet params

@@ -12,9 +12,9 @@ from gws_core import (ConfigParams, InputSpec, InputSpecs, PlotlyResource,
 @task_decorator("PlotlyTask", human_name="Task Plotly",
                 short_description="General Plotly Task")
 class PlotlyTask(Task):
-    css_colours =[
+    css_colours = [
         "black", "white", "red", "green", "blue", "yellow", "orange", "pink",
-        "purple", "brown", "gray", "cyan", "magenta", "lime","teal", "navy"]
+        "purple", "brown", "gray", "cyan", "magenta", "lime", "teal", "navy"]
     css_color_range = [
         'aggrnyl', 'agsunset', 'algae', 'amp', 'armyrose',   'balance',
         'blackbody', 'bluered', 'blues', 'blugrn', 'bluyl', 'brbg', 'brwnyl',
@@ -29,12 +29,12 @@ class PlotlyTask(Task):
         'solar', 'spectral', 'speed', 'sunset', 'sunsetdark', 'teal',
         'tealgrn', 'tealrose', 'tempo', 'temps', 'thermal', 'tropic', 'turbid',
         'turbo', 'twilight', 'viridis', 'ylgn', 'ylgnbu', 'ylorbr', 'ylorrd'
-        ]
+    ]
     input_specs = InputSpecs({'input_table': InputSpec(Table, human_name="input_table")})
 
     output_specs = OutputSpecs({'output_plot': OutputSpec(PlotlyResource, human_name="output graph")})
     config_specs_d1 = {
-        #base params
+        # base params
         'x': StrParam(
             default_value=None,
             human_name="x-axis",
@@ -48,9 +48,15 @@ class PlotlyTask(Task):
             optional=True,
             human_name="y-axis",
             short_description="Column name for the y-axis"),
+        'color': StrParam(
+            default_value=None,
+            optional=True,
+            human_name="Color",
+            short_description="clomuns for the color"
+        ),
     }
     config_specs_facet = {
-        #facet params
+        # facet params
         'facet_row': StrParam(
             default_value=None,
             optional=True,
@@ -72,22 +78,22 @@ class PlotlyTask(Task):
             short_description="Maximum number of facet columns to display",
             visibility="protected"
         ),
-        'facet_row_spacing' : FloatParam(
+        'facet_row_spacing': FloatParam(
             default_value=None,
             optional=True,
             human_name="Facet row Spacing",
             short_description="Spacing between facet rows, in paper units. Default is 0.03 or 0.0.7 when facet_col_wrap is used.",
             visibility="protected"
         ),
-        'facet_col_spacing' : FloatParam(
+        'facet_col_spacing': FloatParam(
             default_value=None,
             optional=True,
             human_name="Facet col Spacing",
             short_description="Spacing between facet columns, in paper units. Default is 0.03 or 0.0.7 when facet_col_wrap is used.",
             visibility="protected"
-        ),}
-    config_specs_hover={
-        #hover params
+        ), }
+    config_specs_hover = {
+        # hover params
         'hover_name': StrParam(
             default_value=None,
             optional=True,
@@ -110,7 +116,7 @@ class PlotlyTask(Task):
             visibility="protected"
         ),
     }
-    config_specs_layout={
+    config_specs_layout = {
         'title': StrParam(
             default_value=None,
             optional=True,
@@ -134,9 +140,9 @@ class PlotlyTask(Task):
             human_name="Template",
             short_description="Plotly template to use",
             visibility="protected",
-            allowed_values = [
-                "ggplot2","seaborn","simple_white","plotly","plotly_dark",
-                "presentation","xgridoff","ygridoff","gridon","none"
+            allowed_values=[
+                "ggplot2", "seaborn", "simple_white", "plotly", "plotly_dark",
+                "presentation", "xgridoff", "ygridoff", "gridon", "none"
             ]
         ),
         'animation_frame': StrParam(
@@ -202,14 +208,14 @@ class PlotlyTask(Task):
             short_description="Height of the graph",
             visibility="protected"
         ),
-        'label_columns' : ListParam(
+        'label_columns': ListParam(
             default_value=None,
             optional=True,
-            visibility= 'protected',
-            human_name= 'columns to label',
-            short_description= "one column per line, and same line for the text",
+            visibility='protected',
+            human_name='columns to label',
+            short_description="one column per line, and same line for the text",
         ),
-        'label_text' : ListParam(
+        'label_text': ListParam(
             default_value=None,
             optional=True,
             visibility="protected",
