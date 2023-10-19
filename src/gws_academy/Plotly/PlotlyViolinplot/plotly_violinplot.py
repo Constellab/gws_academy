@@ -6,7 +6,7 @@
 
 from gws_core import (ConfigParams, PlotlyResource,
                        StrParam,
-                      TaskInputs, TaskOutputs, task_decorator, 
+                      TaskInputs, TaskOutputs, task_decorator,
                       BoolParam, )
 
 from gws_academy.Plotly.PlotlyTask.plotly_task import PlotlyTask
@@ -56,7 +56,7 @@ class PlotlyViolinplot(PlotlyTask):
             if i == "" :
                 params[key]= None
         if params['label_columns'] is not None :
-            labels = dict(params['label_columns'], params['label_text'])
+            labels = dict(zip(params['label_columns'], params['label_text']))
         else:
             labels = None
 
