@@ -131,30 +131,30 @@ class PlotlyScatterplot(PlotlyTask):
             visibility="protected",
             allowed_values=['rug', 'box', 'violin','histogram']
         ),
-        'trendline': StrParam(
-            default_value='ols',
-            optional=True,
-            human_name="Trendline",
-            short_description="Add a trendline to the plot",
-            visibility="protected",
-            allowed_values=['ols', 'lowess', 'rolling', 'expanding', 'ewm']
-        ),
-        'trendline_color_override' : StrParam(
-            default_value=None,
-            optional=True,
-            visibility='protected',
-            human_name="trendline color",
-            short_description="color for the trendline",
-            allowed_values=None
-        ),
-        'trendline_scope' : StrParam(
-            default_value='trace',
-            optional=True,
-            visibility="protected",
-            human_name='trendline scope',
-            short_description=' one trend line per race',
-            allowed_values=['trace', 'overall']
-        ),
+        #'trendline': StrParam(
+        #    default_value=None,
+        #    optional=True,
+        #    human_name="Trendline",
+        #    short_description="Add a trendline to the plot",
+        #    visibility="protected",
+        #    allowed_values=['ols', 'lowess', 'rolling', 'expanding', 'ewm']
+        #),
+        #'trendline_color_override' : StrParam(
+        #    default_value=None,
+        #    optional=True,
+        #    visibility='protected',
+        #    human_name="trendline color",
+        #    short_description="color for the trendline",
+        #    allowed_values=None
+        #),
+        #'trendline_scope' : StrParam(
+        #    default_value='trace',
+        #    optional=True,
+        #    visibility="protected",
+        #    human_name='trendline scope',
+        #    short_description=' one trend line per race',
+        #    allowed_values=['trace', 'overall']
+        #),
         #range_x #range_y
         'render_mode': StrParam(
             default_value=None,
@@ -210,9 +210,9 @@ class PlotlyScatterplot(PlotlyTask):
             size_max=params['size_max'],
             marginal_x=params["marginal_x"],
             marginal_y=params["marginal_y"],
-            trendline=params["trendline"],
-            trendline_color_override=params["trendline_color_override"],
-            trendline_scope=params['trendline_scope'],
+            #trendline=params["trendline"],
+            #trendline_color_override=params["trendline_color_override"],
+            #trendline_scope=params['trendline_scope'],
             log_x=params["log_x"],
             log_y=params["log_y"],
             #range_x #range_y
