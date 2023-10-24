@@ -53,7 +53,7 @@ class PlotlyLine(PlotlyTask):
             visibility="protected",
             short_description=""
             ),
-            **PlotlyTask.trendline,
+            
             **PlotlyTask.symbol,
             **PlotlyTask.errors,
 

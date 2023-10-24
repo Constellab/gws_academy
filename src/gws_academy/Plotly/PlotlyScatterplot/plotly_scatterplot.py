@@ -30,21 +30,21 @@ class PlotlyScatterplot(PlotlyTask):
         'size': StrParam(
             default_value=None,
             optional=True,
-            human_name="columns for the size",
-            short_description=""
+            human_name="size",
+            short_description=" Values from this column are used to assign mark sizes"
         ),
         'opacity' : FloatParam(
             default_value=None,
             visibility='protected',
             human_name="opacity",
-            short_description="opacity of the marks",
+            short_description="float: opacity of the marks",
             optional = True
         ),
         'size_max' : IntParam(
             default_value=20,
             optional=True,
             visibility='protected',
-            short_description= "maximum size of the marks",
+            short_description= "int: maximum size of the marks",
             human_name="mark opacity"
         ),
         'marginal_x': StrParam(
@@ -65,6 +65,7 @@ class PlotlyScatterplot(PlotlyTask):
         ),
         **PlotlyTask.symbol,
         **PlotlyTask.color_continuous,
+        **PlotlyTask.trendline,
     }
 
     def run(self, params: ConfigParams, inputs: TaskInputs) -> TaskOutputs:

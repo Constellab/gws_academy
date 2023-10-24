@@ -39,44 +39,44 @@ class PlotlyTask(Task):
             default_value=None,
             optional=True,
             human_name="Facet Row",
-            short_description="Column name for row facetting",
+            short_description="str: Values from this column are used to assign marks to facetted subplots in the vertical direction.",
             visibility="protected"
         ),
         'facet_col': StrParam(
             default_value=None,
             optional=True,
             human_name="Facet Column",
-            short_description="Column name for column facetting",
+            short_description="Values from this column are used to assign marks to facetted subplots in the horizontal direction.",
             visibility="protected"
         ),
         'facet_col_wrap': IntParam(
             default_value=0,
             optional=True,
             human_name="Facet Col Wrap",
-            short_description="Maximum number of facet columns to display",
+            short_description="int: Maximum number of facet columns. ",
             visibility="protected"
         ),
         'facet_row_spacing': FloatParam(
             default_value=None,
             optional=True,
             human_name="Facet row Spacing",
-            short_description="Spacing between facet rows, in paper units. Default is 0.03 or 0.0.7 when facet_col_wrap is used.",
+            short_description="float: Spacing between facet rows, in paper units. Default is 0.03 or 0.0.7 when facet_col_wrap is used.",
             visibility="protected"
         ),
         'facet_col_spacing': FloatParam(
             default_value=None,
             optional=True,
             human_name="Facet col Spacing",
-            short_description="Spacing between facet columns, in paper units. Default is 0.03 or 0.0.7 when facet_col_wrap is used.",
+            short_description="float: Spacing between facet columns, in paper units. Default is 0.03 or 0.0.7 when facet_col_wrap is used.",
             visibility="protected"
         ), }
     config_specs_hover = {
         ## pas dans tous
-        'hover_data': StrParam(
+        'hover_data': ListParam(
             default_value=None,
             optional=True,
             human_name="Hover Data",
-            short_description="Column names for additional hover data",
+            short_description="list str: Values from these columns appear in the hover tooltip.",
             visibility="protected"
         ),
         # hover params
@@ -84,7 +84,7 @@ class PlotlyTask(Task):
             default_value=None,
             optional=True,
             human_name="Hover Name",
-            short_description="Column name for hover text",
+            short_description="Values from this column appear in bold in the hover tooltip.",
             visibility="protected"
         ),
     }
@@ -93,18 +93,19 @@ class PlotlyTask(Task):
             default_value=None,
             optional=True,
             human_name="Title",
-            short_description="Title of the graph"),
+            short_description="Title of the graph"
+            ),
         'y_axis_name': StrParam(
             default_value=None,
             optional=True,
             human_name="Y Axis Name",
-            short_description=""
+            short_description="set the y axis name"
         ),
         'x_axis_name': StrParam(
             default_value=None,
             optional=True,
             human_name="X Axis Name",
-            short_description=""
+            short_description="set the x axis name"
         ),
         'template': StrParam(
             default_value=None,
@@ -121,63 +122,58 @@ class PlotlyTask(Task):
             default_value=None,
             optional=True,
             human_name="Animation Frame",
-            short_description="Column name for animation frame",
+            short_description="str: Values from this column are used to assign marks to animation frames.",
             visibility="protected"
         ),
         'animation_group': StrParam(
             default_value=None,
             optional=True,
             human_name="Animation Group",
-            short_description="Column name for grouping data points in animations",
+            short_description="str: Values from this column are used to provide object-constancy across animation frames: rows with matching `animation_group`s will be treated as if they describe the same object in each frame.",
             visibility="protected"
         ),
-        'category_orders': StrParam(
-            default_value=None,
-            optional=True,
-            human_name="Category Orders",
-            short_description="Ordering of categories for X and Y axes",
-            visibility="protected"
-        ),
+        'category_orders': None
+        ,
         'log_x': BoolParam(
             default_value=False,
             optional=True,
             human_name="Log X Axis",
-            short_description="Set X axis to logarithmic scale",
+            short_description=" the x-axis is log-scaled in cartesian coordinates.",
             visibility="protected"
         ),
         'log_y': BoolParam(
             default_value=False,
             optional=True,
             human_name="Log Y Axis",
-            short_description="Set Y axis to logarithmic scale",
+            short_description=" the y-axis is log-scaled in cartesian coordinates.",
             visibility="protected"
         ),
         'range_x': StrParam(
             default_value=None,
             optional=True,
             human_name="X Axis Range",
-            short_description="Set the range of the X axis",
+            short_description="If provided, overrides auto-scaling on the x-axis in cartesian coordinates.",
             visibility="protected"
         ),
         'range_y': StrParam(
             default_value=None,
             optional=True,
             human_name="Y Axis Range",
-            short_description="Set the range of the Y axis",
+            short_description=" If provided, overrides auto-scaling on the y-axis in cartesian coordinates.",
             visibility="protected"
         ),
         'width': IntParam(
             default_value=None,
             optional=True,
             human_name="Width",
-            short_description="Width of the graph",
+            short_description="int: The figure width in pixels.",
             visibility="protected"
         ),
         'height': IntParam(
             default_value=None,
             optional=True,
             human_name="Height",
-            short_description="Height of the graph",
+            short_description="int The figure height in pixels",
             visibility="protected"
         ),
         'label_columns': ListParam(
@@ -196,20 +192,10 @@ class PlotlyTask(Task):
         ),
         **config_specs_facet,
         **config_specs_hover,
-        'color_discrete_sequence': StrParam(
-            default_value=None,
-            optional=True,
-            human_name="Color Discrete Sequence",
-            short_description="Custom color sequence for discrete colors",
-            visibility="protected"
-        ),
-        'color_discrete_map': StrParam(
-            default_value=None,
-            optional=True,
-            human_name="Color Discrete Map",
-            short_description="Custom color mapping for discrete colors",
-            visibility="protected"
-        ),
+        'color_discrete_sequence': None
+        ,
+        'color_discrete_map': None
+        ,
         'orientation': StrParam(
             default_value='v',
             optional=True,
@@ -218,11 +204,11 @@ class PlotlyTask(Task):
             allowed_values=['v', 'h'],
             visibility="protected"
         ),
-        'custom_data': StrParam(
+        'custom_data': ListParam(
             default_value=None,
             optional=True,
             human_name="Custom Data",
-            short_description="Column names for custom data",
+            short_description="list[str]: This data is not user-visible but is included in events emitted by the figure (lasso selection etc.)",
             visibility="protected"
         ),
     }
@@ -231,18 +217,18 @@ class PlotlyTask(Task):
         'x': StrParam(
             default_value=None,
             human_name="x-axis",
-            short_description="The column name to use for the x-axis."
+            short_description="str: column name for x-axis' values"
         ),
         'y': StrParam(
             default_value=None,
             optional=True,
             human_name="y-axis",
-            short_description="Column name for the y-axis"),
+            short_description="str: column name for y-axis' values"),
         'color': StrParam(
             default_value=None,
             optional=True,
             human_name="Color",
-            short_description="clomuns for the color"
+            short_description="str: column name to color the graph figures"
         ),
         **layout
     }
@@ -251,28 +237,28 @@ class PlotlyTask(Task):
             default_value=None,
             optional= True,
             human_name="x error",
-            short_description="Either a name of a column in data_frame, or a pandas Series or array_like object. Values from this column or array_like are used to size x-axis error bars",
+            short_description="str: Values from this column are used to size x-axis error bars",
             visibility='protected'
         ),
         'error_x_minus' : StrParam(
             default_value=None,
             optional=True,
             human_name="min X error",
-            short_description="Either a name of a column in data_frame, or a pandas Series . Values from this column or array_like are used to size x-axis error bars in the negative direction.",
+            short_description="str: Values from this column or array_like are used to size x-axis error bars in the negative direction.",
             visibility='protected'
         ),
         'error_y' : StrParam(
             default_value=None,
             optional=True,
             human_name="y error",
-            short_description="Either a name of a column in data_frame, or a pandas Series or array_like object. Values from this column or array_like are used to size y-axis error bars",
+            short_description="str: Values from this column are used to size y-axis error bars",
             visibility='protected'
         ),
         'error_y_minus' : StrParam(
             default_value=None,
             optional=True,
             human_name= "min y error",
-            short_description=" Either a name of a column in data_frame, or a pandas Series or array_like object. Values from this column or array_like are used to size x-axis error bars in the negative direction.",
+            short_description="str: Values from this column or array_like are used to size x-axis error bars in the negative direction.",
             visibility='protected'
         ),
     }
@@ -282,28 +268,18 @@ class PlotlyTask(Task):
         'pattern_shape_map' : None
     }
     color_continuous : { #bar, scatter
-        'color_continuous_scale': StrParam(
-            default_value=None,
-            optional=True,
-            human_name="Color Continuous scale",
-            short_description="Custom continuous color scale ",
-            visibility="protected"
-        ),
-        'color_continuous_midpoint': StrParam(
-            default_value=None,
-            optional=True,
-            human_name="Color Continuous midpoint",
-            short_description="Custom color mapping for discrete colors",
-            visibility="protected"
-        ),
-        #'range_color' : None
+        'color_continuous_scale': None
+        ,
+        'color_continuous_midpoint': None
+        ,
+        'range_color' : None
     }
     symbol = { #scatter, line
         'symbol': StrParam(
             default_value=None,
             optional=True,
             human_name='symbol',
-            short_description="",
+            short_description="str: Values from this column are used to assign symbols to marks.",
         ),
         #symbol_sequence
         #symbol_map
@@ -311,23 +287,23 @@ class PlotlyTask(Task):
             default_value=None,
             optional=True,
             human_name="text labels",
-            short_description="Either a name of a column in data_frame, or a pandas Series or array_like object. Values from this column or array_like appear in the figure as text labels."
+            short_description="str: Values from this column or array_like appear in the figure as text labels."
         ),
         'render_mode': StrParam(
             default_value=None,
             optional=True,
             human_name="Render Mode",
             allowed_values=["svg", "webgl", "auto"],
-            short_description="Set the render mode for points (e.g., 'webgl' or 'svg')",
+            short_description="Controls the browser API used to draw marks. ",
             visibility="protected"
         ),
     }
-    trendline = { #line
+    trendline = { #scatter
         'trendline': StrParam(
             default_value=None,
             optional=True,
             human_name="Trendline",
-            short_description="Add a trendline to the plot",
+            short_description="Add a trendline to the plot, see the plotlydoc : plotly.express.trendline_functions",
             visibility="protected",
             allowed_values=['ols', 'lowess', 'rolling', 'expanding', 'ewm']
         ),
@@ -337,24 +313,24 @@ class PlotlyTask(Task):
             optional=True,
             visibility='protected',
             human_name="trendline color",
-            short_description="color for the trendline",
-            allowed_values=None
+            short_description="all trendlines will be drawn in this color rather than in the same color as the traces from which they draw their inputs.",
+            allowed_values=css_colours
         ),
         'trendline_scope' : StrParam(
             default_value='trace',
             optional=True,
             visibility="protected",
             human_name='trendline scope',
-            short_description=' one trend line per race',
+            short_description="If 'trace', then one trendline is drawn per trace (i.e. per color, symbol, facet, animation frame etc) and if 'overall' then one trendline is computed for the entire dataset, and replicated across all facets.",
             allowed_values=['trace', 'overall']
         ),
     }
     bar_opt = { #bar, histogram
-                'opacity': FloatParam(
+        'opacity': FloatParam(
             default_value=None,
             optional=True,
             human_name="Opacity",
-            short_description="Opacity of histogram bars (0 to 1).",
+            short_description="float:  Value between 0 and 1. Sets the opacity for markers.",
             visibility="protected",
         ),
         'barmode': StrParam(
