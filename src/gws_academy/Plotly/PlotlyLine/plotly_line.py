@@ -19,7 +19,9 @@ import plotly.express as px
 @task_decorator("PlotlyLine", human_name="Line Plotly",
                 short_description="line plot from plotly")
 class PlotlyLine(PlotlyTask):
+    """
 
+    """
     input_specs = PlotlyTask.input_specs
 
     output_specs = PlotlyTask.output_specs
@@ -28,24 +30,15 @@ class PlotlyLine(PlotlyTask):
     config_specs = {
         **PlotlyTask.config_specs_d2,
 
-        'symbol': StrParam(
-            default_value=None,
-            optional=True,
-            human_name="Symbol",
-            short_description=""
-        ),
         'line_group' : StrParam(
             default_value=None,
             optional=True,
             human_name=" Group by line",
             short_description="group rows by line"
         ),
-        'text' : StrParam(
-            default_value=None,
-            optional=True,
-            human_name="Text tag",
-            short_description="",
-        ),
+        #line_dash
+        #line_dash_sequence
+        #line_dash_map
         'markers' : BoolParam(
             default_value=False,
             human_name="Marker",
@@ -60,18 +53,11 @@ class PlotlyLine(PlotlyTask):
             visibility="protected",
             short_description=""
             ),
-        'render_mode': StrParam(
-            default_value=None,
-            optional=True,
-            human_name="Render Mode",
-            allowed_values=["svg", "webgl", "auto"],
-            short_description="Set the render mode for points (e.g., 'webgl' or 'svg')",
-            visibility="protected"
-        ),
-        **PlotlyTask.config_specs_layout
+            **PlotlyTask.trendline,
+            **PlotlyTask.symbol,
+            **PlotlyTask.errors,
+
     }
-
-
 
     def run(self, params: ConfigParams, inputs: TaskInputs) -> TaskOutputs:
     # Get the data frame from the input

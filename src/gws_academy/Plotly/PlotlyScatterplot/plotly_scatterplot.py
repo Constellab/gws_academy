@@ -7,7 +7,7 @@
 from gws_core import (ConfigParams,  PlotlyResource,
                       StrParam,
                       TaskInputs, TaskOutputs, task_decorator, IntParam,
-                      ListParam, FloatParam)
+                     FloatParam)
 
 from gws_academy.Plotly.PlotlyTask.plotly_task import PlotlyTask
 import pandas as pd
@@ -27,80 +27,12 @@ class PlotlyScatterplot(PlotlyTask):
 
     config_specs ={
         **PlotlyTask.config_specs_d2,
-
-        'symbol': StrParam(
-            default_value=None,
-            optional=True,
-            human_name='symbol',
-            short_description="",
-        ),
         'size': StrParam(
             default_value=None,
             optional=True,
             human_name="columns for the size",
             short_description=""
         ),
-        'text' : StrParam(
-            default_value=None,
-            optional=True,
-            human_name="text labels",
-            short_description="Either a name of a column in data_frame, or a pandas Series or array_like object. Values from this column or array_like appear in the figure as text labels."
-        ),
-        'error_x' : StrParam(
-            default_value=None,
-            optional= True,
-            human_name="x error",
-            short_description="Either a name of a column in data_frame, or a pandas Series or array_like object. Values from this column or array_like are used to size x-axis error bars",
-            visibility='protected'
-        ),
-        'error_x_minus' : StrParam(
-            default_value=None,
-            optional=True,
-            human_name="min X error",
-            short_description="Either a name of a column in data_frame, or a pandas Series . Values from this column or array_like are used to size x-axis error bars in the negative direction.",
-            visibility='protected'
-        ),
-        'error_y' : StrParam(
-            default_value=None,
-            optional=True,
-            human_name="y error",
-            short_description="Either a name of a column in data_frame, or a pandas Series or array_like object. Values from this column or array_like are used to size y-axis error bars",
-            visibility='protected'
-        ),
-        'error_y_minus' : StrParam(
-            default_value=None,
-            optional=True,
-            human_name= "min y error",
-            short_description=" Either a name of a column in data_frame, or a pandas Series or array_like object. Values from this column or array_like are used to size x-axis error bars in the negative direction.",
-            visibility='protected'
-        ),
-        #'category_order_keys'
-        #'category_orders_vals'
-        'labels_keys' : ListParam(
-            default_value=None,
-            optional=True,
-            visibility='protected',
-            human_name='labels keys',
-            short_description=" The keys of this dict should correspond to column names, and the values should correspond to the desired label to be displayed."
-        ),
-        'labels_vals' : ListParam(
-            default_value=None,
-            optional=True,
-            visibility='protected',
-            human_name="labels values",
-            short_description="",
-        ),
-        'orientation' : StrParam(
-            default_value='v',
-            optional=True,
-            human_name="orientation",
-            visibility='protected',
-            short_description="set the orientation of the graph",
-            allowed_values=['v', 'h']
-        ),
-        #color_discrete #color_discrete_map #color_continuous_scale
-        #range_color #color_continuous_midpoint
-        #symbol_sequence #symbol_map
         'opacity' : FloatParam(
             default_value=None,
             visibility='protected',
@@ -131,41 +63,8 @@ class PlotlyScatterplot(PlotlyTask):
             visibility="protected",
             allowed_values=['rug', 'box', 'violin','histogram']
         ),
-        #'trendline': StrParam(
-        #    default_value=None,
-        #    optional=True,
-        #    human_name="Trendline",
-        #    short_description="Add a trendline to the plot",
-        #    visibility="protected",
-        #    allowed_values=['ols', 'lowess', 'rolling', 'expanding', 'ewm']
-        #),
-        #'trendline_color_override' : StrParam(
-        #    default_value=None,
-        #    optional=True,
-        #    visibility='protected',
-        #    human_name="trendline color",
-        #    short_description="color for the trendline",
-        #    allowed_values=None
-        #),
-        #'trendline_scope' : StrParam(
-        #    default_value='trace',
-        #    optional=True,
-        #    visibility="protected",
-        #    human_name='trendline scope',
-        #    short_description=' one trend line per race',
-        #    allowed_values=['trace', 'overall']
-        #),
-        #range_x #range_y
-        'render_mode': StrParam(
-            default_value=None,
-            optional=True,
-            human_name="Render Mode",
-            allowed_values=["svg", "webgl", "auto"],
-            short_description="Set the render mode for points (e.g., 'webgl' or 'svg')",
-            visibility="protected",
-        ),
-        **PlotlyTask.config_specs_layout
-
+        **PlotlyTask.symbol,
+        **PlotlyTask.color_continuous,
     }
 
     def run(self, params: ConfigParams, inputs: TaskInputs) -> TaskOutputs:

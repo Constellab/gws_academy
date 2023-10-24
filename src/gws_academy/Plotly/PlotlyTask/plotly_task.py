@@ -33,28 +33,6 @@ class PlotlyTask(Task):
     input_specs = InputSpecs({'input_table': InputSpec(Table, human_name="input_table")})
 
     output_specs = OutputSpecs({'output_plot': OutputSpec(PlotlyResource, human_name="output graph")})
-    config_specs_d1 = {
-        # base params
-        'x': StrParam(
-            default_value=None,
-            human_name="x-axis",
-            short_description="The column name to use for the x-axis."
-        ),
-    }
-    config_specs_d2 = {
-        **config_specs_d1,
-        'y': StrParam(
-            default_value=None,
-            optional=True,
-            human_name="y-axis",
-            short_description="Column name for the y-axis"),
-        'color': StrParam(
-            default_value=None,
-            optional=True,
-            human_name="Color",
-            short_description="clomuns for the color"
-        ),
-    }
     config_specs_facet = {
         # facet params
         'facet_row': StrParam(
@@ -93,6 +71,14 @@ class PlotlyTask(Task):
             visibility="protected"
         ), }
     config_specs_hover = {
+        ## pas dans tous
+        'hover_data': StrParam(
+            default_value=None,
+            optional=True,
+            human_name="Hover Data",
+            short_description="Column names for additional hover data",
+            visibility="protected"
+        ),
         # hover params
         'hover_name': StrParam(
             default_value=None,
@@ -101,22 +87,8 @@ class PlotlyTask(Task):
             short_description="Column name for hover text",
             visibility="protected"
         ),
-        'hover_data': StrParam(
-            default_value=None,
-            optional=True,
-            human_name="Hover Data",
-            short_description="Column names for additional hover data",
-            visibility="protected"
-        ),
-        'custom_data': StrParam(
-            default_value=None,
-            optional=True,
-            human_name="Custom Data",
-            short_description="Column names for custom data",
-            visibility="protected"
-        ),
     }
-    config_specs_layout = {
+    layout = {
         'title': StrParam(
             default_value=None,
             optional=True,
@@ -224,15 +196,6 @@ class PlotlyTask(Task):
         ),
         **config_specs_facet,
         **config_specs_hover,
-    }
-    bar_box_violin = {
-        'color': StrParam(
-            default_value=None,
-            optional=True,
-            human_name="Color",
-            short_description="Column name for color encoding",
-            visibility="protected"
-        ),
         'color_discrete_sequence': StrParam(
             default_value=None,
             optional=True,
@@ -255,7 +218,154 @@ class PlotlyTask(Task):
             allowed_values=['v', 'h'],
             visibility="protected"
         ),
+        'custom_data': StrParam(
+            default_value=None,
+            optional=True,
+            human_name="Custom Data",
+            short_description="Column names for custom data",
+            visibility="protected"
+        ),
     }
-
+    config_specs_d2 = {
+        # base params
+        'x': StrParam(
+            default_value=None,
+            human_name="x-axis",
+            short_description="The column name to use for the x-axis."
+        ),
+        'y': StrParam(
+            default_value=None,
+            optional=True,
+            human_name="y-axis",
+            short_description="Column name for the y-axis"),
+        'color': StrParam(
+            default_value=None,
+            optional=True,
+            human_name="Color",
+            short_description="clomuns for the color"
+        ),
+        **layout
+    }
+    errors = { # line, bar, histogram
+        'error_x' : StrParam(
+            default_value=None,
+            optional= True,
+            human_name="x error",
+            short_description="Either a name of a column in data_frame, or a pandas Series or array_like object. Values from this column or array_like are used to size x-axis error bars",
+            visibility='protected'
+        ),
+        'error_x_minus' : StrParam(
+            default_value=None,
+            optional=True,
+            human_name="min X error",
+            short_description="Either a name of a column in data_frame, or a pandas Series . Values from this column or array_like are used to size x-axis error bars in the negative direction.",
+            visibility='protected'
+        ),
+        'error_y' : StrParam(
+            default_value=None,
+            optional=True,
+            human_name="y error",
+            short_description="Either a name of a column in data_frame, or a pandas Series or array_like object. Values from this column or array_like are used to size y-axis error bars",
+            visibility='protected'
+        ),
+        'error_y_minus' : StrParam(
+            default_value=None,
+            optional=True,
+            human_name= "min y error",
+            short_description=" Either a name of a column in data_frame, or a pandas Series or array_like object. Values from this column or array_like are used to size x-axis error bars in the negative direction.",
+            visibility='protected'
+        ),
+    }
+    pattern_shape = { # bar, histogram
+        'pattern_shape' : None,
+        'pattern_shape_sequence' : None,
+        'pattern_shape_map' : None
+    }
+    color_continuous : { #bar, scatter
+        'color_continuous_scale': StrParam(
+            default_value=None,
+            optional=True,
+            human_name="Color Continuous scale",
+            short_description="Custom continuous color scale ",
+            visibility="protected"
+        ),
+        'color_continuous_midpoint': StrParam(
+            default_value=None,
+            optional=True,
+            human_name="Color Continuous midpoint",
+            short_description="Custom color mapping for discrete colors",
+            visibility="protected"
+        ),
+        #'range_color' : None
+    }
+    symbol = { #scatter, line
+        'symbol': StrParam(
+            default_value=None,
+            optional=True,
+            human_name='symbol',
+            short_description="",
+        ),
+        #symbol_sequence
+        #symbol_map
+        'text' : StrParam(
+            default_value=None,
+            optional=True,
+            human_name="text labels",
+            short_description="Either a name of a column in data_frame, or a pandas Series or array_like object. Values from this column or array_like appear in the figure as text labels."
+        ),
+        'render_mode': StrParam(
+            default_value=None,
+            optional=True,
+            human_name="Render Mode",
+            allowed_values=["svg", "webgl", "auto"],
+            short_description="Set the render mode for points (e.g., 'webgl' or 'svg')",
+            visibility="protected"
+        ),
+    }
+    trendline = { #line
+        'trendline': StrParam(
+            default_value=None,
+            optional=True,
+            human_name="Trendline",
+            short_description="Add a trendline to the plot",
+            visibility="protected",
+            allowed_values=['ols', 'lowess', 'rolling', 'expanding', 'ewm']
+        ),
+        #trendline_options
+        'trendline_color_override' : StrParam(
+            default_value=None,
+            optional=True,
+            visibility='protected',
+            human_name="trendline color",
+            short_description="color for the trendline",
+            allowed_values=None
+        ),
+        'trendline_scope' : StrParam(
+            default_value='trace',
+            optional=True,
+            visibility="protected",
+            human_name='trendline scope',
+            short_description=' one trend line per race',
+            allowed_values=['trace', 'overall']
+        ),
+    }
+    bar_opt = { #bar, histogram
+                'opacity': FloatParam(
+            default_value=None,
+            optional=True,
+            human_name="Opacity",
+            short_description="Opacity of histogram bars (0 to 1).",
+            visibility="protected",
+        ),
+        'barmode': StrParam(
+            default_value=None,
+            optional=True,
+            human_name="Bar Mode",
+            short_description="Bar mode for stacked or grouped histograms",
+            allowed_values=['stack', 'group', 'overlay', 'relative'],
+            visibility="protected",
+        ),
+        #text_auto
+    }
     def run(self, params: ConfigParams, inputs: TaskInputs) -> TaskOutputs:
         pass

@@ -5,7 +5,7 @@
 
 
 from gws_core import (ConfigParams,  PlotlyResource,
-                      StrParam,
+                      StrParam, FloatParam,
                       TaskInputs, TaskOutputs, task_decorator,)
 
 from gws_academy.Plotly.PlotlyTask.plotly_task import PlotlyTask
@@ -23,17 +23,18 @@ class PlotlyBarplot(PlotlyTask):
 
     config_specs = {
         **PlotlyTask.config_specs_d2,
-        #base params
-        **PlotlyTask.bar_box_violin,
-        'barmode': StrParam(
-            default_value='relative',
+        #specific params
+        'text' : StrParam(
+            default_value=None,
             optional=True,
-            human_name="Box Mode",
-            allowed_values=["relative", 'group','overlay'],
-            short_description="In 'relative' mode, bars are stacked above zero for positive values and below zero for negative values. In 'overlay' mode, bars are drawn on top of one another. In 'group' mode, bars are placed beside each other.",
-            visibility="protected"
+            human_name="text labels",
+            short_description="Either a name of a column in data_frame, or a pandas Series or array_like object. Values from this column or array_like appear in the figure as text labels."
         ),
-        **PlotlyTask.config_specs_layout,
+        'base' : None,
+        **PlotlyTask.bar_opt,
+        **PlotlyTask.errors,
+        **PlotlyTask.color_continuous,
+        **PlotlyTask.pattern_shape
     }
 
     def run(self, params: ConfigParams, inputs: TaskInputs) -> TaskOutputs:

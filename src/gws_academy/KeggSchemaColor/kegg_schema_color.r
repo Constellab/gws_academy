@@ -8,7 +8,7 @@ column_wild = "Wild"
 # Load required packages
 library(pathview)
 # Read the source csv file with header, row names and comma separator
-microarray <- read.csv(source_paths[1], header = TRUE, sep = ",")
+microarray <- read.csv('input_table.csv', header = TRUE, sep = ",")
 #copy dataset
 microGlobal = microarray
 

@@ -27,7 +27,9 @@ class PlotlyHistogram(PlotlyTask):
 
     config_specs = {
         **PlotlyTask.config_specs_d2,
-
+        **PlotlyTask.errors,
+        **PlotlyTask.pattern_shape,
+        **PlotlyTask.bar_opt,
         'marginal': StrParam(
             default_value=None,
             optional=True,
@@ -35,13 +37,6 @@ class PlotlyHistogram(PlotlyTask):
             human_name='marginal plot',
             short_description="if set, a subplot is drawn alongside the main plot, visualising the distribution",
             allowed_values=['rug', 'box','violin','histogram']
-        ),
-        'opacity': FloatParam(
-            default_value=None,
-            optional=True,
-            human_name="Opacity",
-            short_description="Opacity of histogram bars (0 to 1).",
-            visibility="protected",
         ),
         'barnorm' : StrParam(
             default_value=None,
@@ -71,7 +66,6 @@ class PlotlyHistogram(PlotlyTask):
             optional=True,
             human_name='cumulative',
             short_description='cumulative or not',
-
         ),
         'nbins' : IntParam(
             default_value=None,
@@ -80,16 +74,6 @@ class PlotlyHistogram(PlotlyTask):
             short_description='Sets the number of bins',
             human_name='nb of bins'
         ),
-        'barmode': StrParam(
-            default_value=None,
-            optional=True,
-            human_name="Bar Mode",
-            short_description="Bar mode for stacked or grouped histograms",
-            allowed_values=['stack', 'group', 'overlay', 'relative'],
-            visibility="protected",
-        ),
-        **PlotlyTask.config_specs_layout,
-        **PlotlyTask.bar_box_violin,
     }
 
     def run(self, params: ConfigParams, inputs: TaskInputs) -> TaskOutputs:

@@ -25,7 +25,6 @@ class PlotlyViolinplot(PlotlyTask):
     config_specs = {
         #base params
         **PlotlyTask.config_specs_d2,
-        **PlotlyTask.bar_box_violin,
         'violinmode': StrParam(
             default_value='group',
             optional=True,
@@ -46,7 +45,6 @@ class PlotlyViolinplot(PlotlyTask):
             human_name="notches",
             short_description="if True, boxes are drawn with notches"
         ),
-        **PlotlyTask.config_specs_layout
     }
 
 

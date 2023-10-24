@@ -26,7 +26,6 @@ class PlotlyBoxplot(PlotlyTask):
     config_specs = {
         **PlotlyTask.config_specs_d2,
         #base params
-        **PlotlyTask.bar_box_violin,
         'boxmode': StrParam(
             default_value='group',
             optional=True,
@@ -47,7 +46,6 @@ class PlotlyBoxplot(PlotlyTask):
             human_name="notches",
             short_description="if True, boxes are drawn with notches"
         ),
-        **PlotlyTask.config_specs_layout,
     }
 
 
