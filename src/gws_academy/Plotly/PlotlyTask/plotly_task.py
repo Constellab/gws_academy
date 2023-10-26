@@ -132,8 +132,12 @@ class PlotlyTask(Task):
             short_description="str: Values from this column are used to provide object-constancy across animation frames: rows with matching `animation_group`s will be treated as if they describe the same object in each frame.",
             visibility="protected"
         ),
-        'category_orders': None
-        ,
+        'category_orders': StrParam(
+            default_value=None,
+            optional=True,
+            human_name="category orders",
+            visibility="private"
+        ),
         'log_x': BoolParam(
             default_value=False,
             optional=True,
@@ -192,10 +196,18 @@ class PlotlyTask(Task):
         ),
         **config_specs_facet,
         **config_specs_hover,
-        'color_discrete_sequence': None
-        ,
-        'color_discrete_map': None
-        ,
+        'color_discrete_sequence': StrParam(
+            default_value=None,
+            optional=True,
+            human_name="color discrete sequence",
+            visibility="private"
+        ),
+        'color_discrete_map': StrParam(
+            default_value=None,
+            optional=True,
+            human_name="color discrete map",
+            visibility="private"
+        ),
         'orientation': StrParam(
             default_value='v',
             optional=True,
@@ -204,13 +216,13 @@ class PlotlyTask(Task):
             allowed_values=['v', 'h'],
             visibility="protected"
         ),
-        'custom_data': ListParam(
-            default_value=None,
-            optional=True,
-            human_name="Custom Data",
-            short_description="list[str]: This data is not user-visible but is included in events emitted by the figure (lasso selection etc.)",
-            visibility="protected"
-        ),
+#        'custom_data': ListParam(
+#            default_value=None,
+#            optional=True,
+#            human_name="Custom Data",
+#            short_description="list[str]: This data is not user-visible but is included in events emitted by the figure (lasso selection etc.)",
+#            visibility="protected"
+# #       ),
     }
     config_specs_d2 = {
         # base params
@@ -232,7 +244,8 @@ class PlotlyTask(Task):
         ),
         **layout
     }
-    errors = { # line, bar, histogram
+    errors = { # line, bar, scatter
+
         'error_x' : StrParam(
             default_value=None,
             optional= True,
@@ -261,18 +274,56 @@ class PlotlyTask(Task):
             short_description="str: Values from this column or array_like are used to size x-axis error bars in the negative direction.",
             visibility='protected'
         ),
+        'text' : StrParam(
+            default_value=None,
+            optional=True,
+            human_name="text labels",
+            short_description="str: Values from this column or array_like appear in the figure as text labels."
+        ),
     }
     pattern_shape = { # bar, histogram
-        'pattern_shape' : None,
-        'pattern_shape_sequence' : None,
-        'pattern_shape_map' : None
+        'pattern_shape' : StrParam(
+            default_value=None,
+            optional=True,
+            human_name="pattern shape",
+            visibility="private"
+        ),
+        'pattern_shape_sequence' : StrParam(
+            default_value=None,
+            optional=True,
+            human_name="pattern shape sequence",
+            visibility="private"
+        ),
+        'pattern_shape_map' : StrParam(
+            default_value=None,
+            optional=True,
+            human_name="pattern shape map",
+            visibility="private"
+        )
     }
-    color_continuous : { #bar, scatter
-        'color_continuous_scale': None
+    color_continuous = { #bar, scatter
+        'color_continuous_scale': StrParam(
+            default_value=None,
+            optional=True,
+            visibility="private",
+            human_name="color continuous scale",
+
+        )
         ,
-        'color_continuous_midpoint': None
+        'color_continuous_midpoint': IntParam(
+            default_value=None,
+            optional=True,
+            visibility="private",
+            human_name="color continuous midpoint",
+
+        )
         ,
-        'range_color' : None
+        'range_color' : ListParam(
+            default_value=None,
+            optional=True,
+            human_name="range colors",
+            visibility="private"
+        )
     }
     symbol = { #scatter, line
         'symbol': StrParam(
@@ -283,12 +334,7 @@ class PlotlyTask(Task):
         ),
         #symbol_sequence
         #symbol_map
-        'text' : StrParam(
-            default_value=None,
-            optional=True,
-            human_name="text labels",
-            short_description="str: Values from this column or array_like appear in the figure as text labels."
-        ),
+
         'render_mode': StrParam(
             default_value=None,
             optional=True,
@@ -307,7 +353,12 @@ class PlotlyTask(Task):
             visibility="protected",
             allowed_values=['ols', 'lowess', 'rolling', 'expanding', 'ewm']
         ),
-        #trendline_options
+        'trendline_options' : StrParam(
+            default_value=None,
+            optional=True,
+            human_name='trendline options',
+            visibility="private"
+        ),
         'trendline_color_override' : StrParam(
             default_value=None,
             optional=True,
@@ -341,7 +392,20 @@ class PlotlyTask(Task):
             allowed_values=['stack', 'group', 'overlay', 'relative'],
             visibility="protected",
         ),
-        #text_auto
+        'text_auto' : StrParam(
+            default_value=None,
+            optional=True,
+            visibility='private',
+            human_name='text auto',
+        )
+    }
+    custom_data = {
+        'custom_data' : StrParam(
+            default_value=None,
+            optional=True,
+            human_name='custom data',
+            short_description="str: Values from this column are displayed on the graph"
+        )
     }
     def run(self, params: ConfigParams, inputs: TaskInputs) -> TaskOutputs:
         pass

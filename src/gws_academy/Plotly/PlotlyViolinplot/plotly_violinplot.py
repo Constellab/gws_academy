@@ -25,6 +25,7 @@ class PlotlyViolinplot(PlotlyTask):
     config_specs = {
         #base params
         **PlotlyTask.config_specs_d2,
+        **PlotlyTask.custom_data,
         'violinmode': StrParam(
             default_value='group',
             optional=True,
@@ -62,6 +63,7 @@ class PlotlyViolinplot(PlotlyTask):
         # Créez le graphique à l'aide de px.box
         fig = px.violin(
             data_frame=dataframe,
+            #base params
             x=params['x'],
             y=params['y'],
             title=params['title'],
@@ -75,25 +77,27 @@ class PlotlyViolinplot(PlotlyTask):
             #hover params
             hover_name=params['hover_name'],
             hover_data=params['hover_data'],
-            custom_data=params['custom_data'],
-            labels = labels,
             #animation params
             animation_frame=params['animation_frame'],
             animation_group=params['animation_group'],
+            #layout params
+            labels = labels,
             category_orders=params['category_orders'],
             color_discrete_sequence=params['color_discrete_sequence'],
             color_discrete_map=params['color_discrete_map'],
             orientation=params['orientation'],
-            violinmode=params['violinmode'],
             log_x=params['log_x'],
             log_y=params['log_y'],
             range_x=params['range_x'],
             range_y=params['range_y'],
-            points=params['points'],
-            box=params["box"],
             template=params['template'],
             width=params['width'],
-            height=params['height']
+            height=params['height'],
+            #specific params
+            violinmode=params['violinmode'],
+            points=params['points'],
+            box=params["box"],
+            custom_data=params['custom_data'],
         )
 
         # Mise à jour des axes

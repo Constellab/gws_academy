@@ -20,7 +20,10 @@ import plotly.express as px
                 short_description="line plot from plotly")
 class PlotlyLine(PlotlyTask):
     """
+    Plotly Line task
+    Inputs : Table
 
+    Ouputs : PLotlyResource
     """
     input_specs = PlotlyTask.input_specs
 
@@ -29,16 +32,31 @@ class PlotlyLine(PlotlyTask):
 
     config_specs = {
         **PlotlyTask.config_specs_d2,
-
+        **PlotlyTask.custom_data,
         'line_group' : StrParam(
             default_value=None,
             optional=True,
             human_name=" Group by line",
             short_description="group rows by line"
         ),
-        #line_dash
-        #line_dash_sequence
-        #line_dash_map
+        'line_dash' : StrParam(
+            default_value=None,
+            optional=True,
+            visibility="private",
+            human_name="line dash",
+        ),
+        'line_dash_sequence' : StrParam(
+            default_value=None,
+            optional=True,
+            visibility="private",
+            human_name="line dash sequence",
+        ),
+        'line_dash_map' : StrParam(
+            default_value=None,
+            optional=True,
+            visibility="private",
+            human_name="line dash map",
+        ),
         'markers' : BoolParam(
             default_value=False,
             human_name="Marker",
@@ -53,10 +71,8 @@ class PlotlyLine(PlotlyTask):
             visibility="protected",
             short_description=""
             ),
-            
-            **PlotlyTask.symbol,
-            **PlotlyTask.errors,
-
+        **PlotlyTask.symbol,
+        **PlotlyTask.errors,
     }
 
     def run(self, params: ConfigParams, inputs: TaskInputs) -> TaskOutputs:
@@ -74,27 +90,54 @@ class PlotlyLine(PlotlyTask):
         # Create the line plot using Plotly Express
         fig = px.line(
             data_frame=dataframe,
+            #base params
             x=params['x'],
             y=params['y'],
             title=params['title'],
             color=params['color'],
-            symbol=params["symbol"],
-            line_group=params['line_group'],
-            hover_data=params["hover_data"],
-            markers=params["markers"],
-            text=params["text"],
-            facet_col=params["facet_col"],
-            facet_row=params["facet_row"],
-            facet_col_wrap=params["facet_col_wrap"],
-            log_x=params["log_x"],
-            log_y=params["log_y"],
-            animation_frame=params["animation_frame"],
-            animation_group=params["animation_group"],
+            #facet params
+            facet_row=params['facet_row'],
+            facet_col=params['facet_col'],
+            facet_col_wrap=params['facet_col_wrap'],
+            facet_row_spacing=params['facet_row_spacing'],
+            facet_col_spacing=params['facet_col_spacing'],
+            #hover params
+            hover_name=params['hover_name'],
+            hover_data=params['hover_data'],
+            #animation params
+            animation_frame=params['animation_frame'],
+            animation_group=params['animation_group'],
+            #layout params
+            labels = labels,
+            category_orders=params['category_orders'],
+            color_discrete_sequence=params['color_discrete_sequence'],
+            color_discrete_map=params['color_discrete_map'],
+            orientation=params['orientation'],
+            log_x=params['log_x'],
+            log_y=params['log_y'],
+            range_x=params['range_x'],
+            range_y=params['range_y'],
+            template=params['template'],
+            width=params['width'],
+            height=params['height'],
+            #specific params
             line_shape=params['line_shape'],
-            render_mode=params["render_mode"],
-            height=params["height"],
-            width=params["width"],
-            labels=labels
+            line_dash=params['line_dash'],
+            line_dash_sequence=params['line_dash_sequence'],
+            line_dash_map=params['line_dash_map'],
+            markers=params['markers'],
+            custom_data=params['custom_data'],
+            #errors
+            error_x=params['error_x'],
+            error_x_minus=params['error_x_minus'],
+            error_y=params['error_y'],
+            error_y_minus=params['error_y_minus'],
+            text=params['text'],
+            #symbols
+            symbol=params['symbol'],
+            symbol_map=params['symbol_map'],
+            symbol_sequence=params['symbol_sequence'],
+            render_mode=params['render_mode'],
         )
 
         # Update axis titles

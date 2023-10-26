@@ -24,17 +24,17 @@ class PlotlyBarplot(PlotlyTask):
     config_specs = {
         **PlotlyTask.config_specs_d2,
         #specific params
-        'text' : StrParam(
+        'base' : StrParam(
             default_value=None,
             optional=True,
-            human_name="text labels",
-            short_description="Either a name of a column in data_frame, or a pandas Series or array_like object. Values from this column or array_like appear in the figure as text labels."
+            human_name="base",
+            visibility="private"
         ),
-        'base' : None,
         **PlotlyTask.bar_opt,
         **PlotlyTask.errors,
         **PlotlyTask.color_continuous,
-        **PlotlyTask.pattern_shape
+        **PlotlyTask.pattern_shape,
+        **PlotlyTask.custom_data,
     }
 
     def run(self, params: ConfigParams, inputs: TaskInputs) -> TaskOutputs:
@@ -50,6 +50,7 @@ class PlotlyBarplot(PlotlyTask):
         # Créez le graphique à l'aide de px.box
         fig = px.bar(
             data_frame=dataframe,
+            #base params
             x=params['x'],
             y=params['y'],
             title=params['title'],
@@ -63,22 +64,43 @@ class PlotlyBarplot(PlotlyTask):
             #hover params
             hover_name=params['hover_name'],
             hover_data=params['hover_data'],
-            custom_data=params['custom_data'],
+            #animation params
             animation_frame=params['animation_frame'],
             animation_group=params['animation_group'],
-            category_orders=params['category_orders'],
+            #layout params
             labels = labels,
+            category_orders=params['category_orders'],
             color_discrete_sequence=params['color_discrete_sequence'],
             color_discrete_map=params['color_discrete_map'],
             orientation=params['orientation'],
-            barmode=params['barmode'],
             log_x=params['log_x'],
             log_y=params['log_y'],
             range_x=params['range_x'],
             range_y=params['range_y'],
             template=params['template'],
             width=params['width'],
-            height=params['height']
+            height=params['height'],
+            #specific params
+            base=params['base'],
+            custom_data=params['custom_data'],
+            #bar opt
+            opacity=params['opacity'],
+            barmode=params['barmode'],
+            text_auto=params['text_auto'],
+            #color continuous
+            color_continuous_scale= params['color_continuous_scale'],
+            color_continuous_midpoint= params['color_continuous_midpoint'],
+            range_color=params['range_color'],
+            #errors
+            error_x=params['error_x'],
+            error_x_minus=params['error_x_minus'],
+            error_y=params['error_y'],
+            error_y_minus=params['error_y_minus'],
+            text=params['text'],
+            #pattern shape
+            pattern_shape= params['pattern_shape'],
+            pattern_shape_map=params['pattern_shape_map'],
+            pattern_shape_sequence=params['pattern_shape_sequence']
         )
 
         # Mise à jour des axes

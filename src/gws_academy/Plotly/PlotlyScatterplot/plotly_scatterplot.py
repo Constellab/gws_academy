@@ -64,6 +64,7 @@ class PlotlyScatterplot(PlotlyTask):
             allowed_values=['rug', 'box', 'violin','histogram']
         ),
         **PlotlyTask.symbol,
+        **PlotlyTask.errors,
         **PlotlyTask.color_continuous,
         **PlotlyTask.trendline,
     }
@@ -81,45 +82,62 @@ class PlotlyScatterplot(PlotlyTask):
 
         fig = px.scatter(
             data_frame=dataframe,
+            #base params
             x=params['x'],
             y=params['y'],
             title=params['title'],
             color=params['color'],
-            size=params["size"],
-            symbol=params["symbol"],
-            hover_name=params["hover_name"],
-            hover_data=params["hover_data"],
-            custom_data=params['custom_data'],
-            text=params['text'],
-            facet_col=params["facet_col"],
-            facet_row=params["facet_row"],
-            facet_col_wrap=params["facet_col_wrap"],
-            error_x=params['error_x'],
-            error_x_minus= params['error_x_minus'],
-            error_y= params['error_y'],
-            error_y_minus=params['error_y_minus'],
-            animation_frame=params["animation_frame"],
-            animation_group=params["animation_group"],
-            #category_orders
-            labels=labels,
+            #facet params
+            facet_row=params['facet_row'],
+            facet_col=params['facet_col'],
+            facet_col_wrap=params['facet_col_wrap'],
+            facet_row_spacing=params['facet_row_spacing'],
+            facet_col_spacing=params['facet_col_spacing'],
+            #hover params
+            hover_name=params['hover_name'],
+            hover_data=params['hover_data'],
+            #animation params
+            animation_frame=params['animation_frame'],
+            animation_group=params['animation_group'],
+            #layout params
+            labels = labels,
+            category_orders=params['category_orders'],
+            color_discrete_sequence=params['color_discrete_sequence'],
+            color_discrete_map=params['color_discrete_map'],
             orientation=params['orientation'],
-            #color_discrete #color_discrete_map #color_continuous_scale
-            #range_color #color_continuous_midpoint
-            #symbol_sequence #symbol_map
-            opacity=params['opacity'],
-            size_max=params['size_max'],
-            marginal_x=params["marginal_x"],
-            marginal_y=params["marginal_y"],
-            #trendline=params["trendline"],
-            #trendline_color_override=params["trendline_color_override"],
-            #trendline_scope=params['trendline_scope'],
-            log_x=params["log_x"],
-            log_y=params["log_y"],
-            #range_x #range_y
-            render_mode=params["render_mode"],
+            log_x=params['log_x'],
+            log_y=params['log_y'],
+            range_x=params['range_x'],
+            range_y=params['range_y'],
             template=params['template'],
-            height=params["height"],
-            width=params["width"]
+            width=params['width'],
+            height=params['height'],
+            #specific params
+            marginal_x=params['marginal_x'],
+            marginal_y=params['marginal_y'],
+            size=params['size'],
+            size_max=params['size_max'],
+            opacity=params['opacity'],
+            custom_data=params['custom_data'],
+            #trendline
+            trendline=params['trendline'],
+            trendline_color_override=params['trendline_color_overide'],
+            trendline_options=params['trendline_options'],
+            trendline_scope=params['trendline_scope'],
+            #errors
+            error_x=params['error_x'],
+            error_x_minus=params['error_x_minus'],
+            error_y=params['error_y'],
+            error_y_minus=params['error_y_minus'],
+            text=params['text'],
+            #symbols
+            symbol=params['symbol'],
+            symbol_map=params['symbol_map'],
+            symbol_sequence=params['symbol_sequence'],
+            render_mode=params['render_mode'],
+            #color continuous
+            color_continuous_midpoint=params['color_continuous_midpoint'],
+            color_continuous_scale=params['color_continuous_scale'],
         )
 
         fig.update_xaxes(title=params["x_axis_name"])

@@ -27,7 +27,6 @@ class PlotlyHistogram(PlotlyTask):
 
     config_specs = {
         **PlotlyTask.config_specs_d2,
-        **PlotlyTask.errors,
         **PlotlyTask.pattern_shape,
         **PlotlyTask.bar_opt,
         'marginal': StrParam(
@@ -89,19 +88,11 @@ class PlotlyHistogram(PlotlyTask):
 
         fig = px.histogram(
             data_frame=dataframe,
+            #base params
             x=params['x'],
             y=params['y'],
             title=params['title'],
             color=params['color'],
-            #specific params
-            marginal=params['marginal'],
-            opacity=params['opacity'],
-            barnorm=params['barnorm'],
-            histnorm=params['histnorm'],
-            histfunc=params['histfunc'],
-            cumulative=params['cumulative'],
-            nbins=params['nbins'],
-            #layout params
             #facet params
             facet_row=params['facet_row'],
             facet_col=params['facet_col'],
@@ -111,21 +102,39 @@ class PlotlyHistogram(PlotlyTask):
             #hover params
             hover_name=params['hover_name'],
             hover_data=params['hover_data'],
+            #animation params
             animation_frame=params['animation_frame'],
             animation_group=params['animation_group'],
-            category_orders=params['category_orders'],
+            #layout params
             labels = labels,
+            category_orders=params['category_orders'],
             color_discrete_sequence=params['color_discrete_sequence'],
             color_discrete_map=params['color_discrete_map'],
             orientation=params['orientation'],
-            barmode=params['barmode'],
             log_x=params['log_x'],
             log_y=params['log_y'],
             range_x=params['range_x'],
             range_y=params['range_y'],
             template=params['template'],
             width=params['width'],
-            height=params['height']
+            height=params['height'],
+            #specific params
+            marginal=params['marginal'],
+            barnorm=params['barnorm'],
+            histnorm=params['histnorm'],
+            histfunc=params['histfunc'],
+            cumulative=params['cumulative'],
+            nbins=params['nbins'],
+            #bar opt
+            opacity=params['opacity'],
+            barmode=params['barmode'],
+            text_auto=params['text_auto'],
+            #pattern
+            #pattern shape
+            pattern_shape= params['pattern_shape'],
+            pattern_shape_map=params['pattern_shape_map'],
+            pattern_shape_sequence=params['pattern_shape_sequence']
+
         )
         # Mise à jour des axes
         fig.update_xaxes(title=params['x_axis_name'])
