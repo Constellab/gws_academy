@@ -10,7 +10,7 @@ from gws_core import (ConfigParams, InputSpec, InputSpecs, PlotlyResource,
 # **PlotlyTAsk.config_specs
 
 @task_decorator("PlotlyTask", human_name="Task Plotly",
-                short_description="General Plotly Task")
+                short_description="General Plotly Task", hide=False)
 class PlotlyTask(Task):
     css_colours = [
         "black", "white", "red", "green", "blue", "yellow", "orange", "pink",
@@ -215,14 +215,7 @@ class PlotlyTask(Task):
             short_description="Orientation of the box plot ('v' for vertical, 'h' for horizontal)",
             allowed_values=['v', 'h'],
             visibility="protected"
-        ),
-#        'custom_data': ListParam(
-#            default_value=None,
-#            optional=True,
-#            human_name="Custom Data",
-#            short_description="list[str]: This data is not user-visible but is included in events emitted by the figure (lasso selection etc.)",
-#            visibility="protected"
-# #       ),
+        )
     }
     config_specs_d2 = {
         # base params
@@ -307,23 +300,19 @@ class PlotlyTask(Task):
             optional=True,
             visibility="private",
             human_name="color continuous scale",
-
-        )
-        ,
+        ),
         'color_continuous_midpoint': IntParam(
             default_value=None,
             optional=True,
             visibility="private",
             human_name="color continuous midpoint",
-
-        )
-        ,
+        ),
         'range_color' : ListParam(
             default_value=None,
             optional=True,
             human_name="range colors",
             visibility="private"
-        )
+        ),
     }
     symbol = { #scatter, line
         'symbol': StrParam(
@@ -332,8 +321,18 @@ class PlotlyTask(Task):
             human_name='symbol',
             short_description="str: Values from this column are used to assign symbols to marks.",
         ),
-        #symbol_sequence
-        #symbol_map
+        'symbol_sequence' : StrParam(
+            default_value=None,
+            optional=True,
+            human_name='symbol sequence',
+            visibility="private"
+        ),
+        'symbol_map' : StrParam(
+            default_value=None,
+            optional=True,
+            human_name='symbol map',
+            visibility="private"
+        ),
 
         'render_mode': StrParam(
             default_value=None,

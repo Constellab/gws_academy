@@ -18,6 +18,13 @@ import plotly.express as px
 @task_decorator(unique_name="PlotlyViolinplot", human_name="Violinplot Plotly",
                 short_description="Violin plot from plotly")
 class PlotlyViolinplot(PlotlyTask):
+    """
+    Plotly violin plot
+    plotly.express.violin()
+
+    please check : [https://plotly.com/python-api-reference/generated/plotly.express.violin.html] for more info
+
+    """
     input_specs = PlotlyTask.input_specs
 
     output_specs = PlotlyTask.output_specs

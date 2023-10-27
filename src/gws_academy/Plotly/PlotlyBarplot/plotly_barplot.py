@@ -5,7 +5,7 @@
 
 
 from gws_core import (ConfigParams,  PlotlyResource,
-                      StrParam, FloatParam,
+                      StrParam,
                       TaskInputs, TaskOutputs, task_decorator,)
 
 from gws_academy.Plotly.PlotlyTask.plotly_task import PlotlyTask
@@ -17,6 +17,13 @@ import plotly.express as px
 @task_decorator(unique_name="PlotlyBarplot", human_name="Barplot Plotly",
                 short_description="Bar plot and Stack bar plot from plotly")
 class PlotlyBarplot(PlotlyTask):
+    """
+    Plotly Bar plot
+    plotly.express.bar()
+
+    please check : [https://plotly.com/python-api-reference/generated/plotly.express.bar.html]
+
+    """
     input_specs = PlotlyTask.input_specs
 
     output_specs = PlotlyTask.output_specs
@@ -28,7 +35,8 @@ class PlotlyBarplot(PlotlyTask):
             default_value=None,
             optional=True,
             human_name="base",
-            visibility="private"
+            visibility="protected",
+            short_description="Values from this column are used to position the base of the bar."
         ),
         **PlotlyTask.bar_opt,
         **PlotlyTask.errors,

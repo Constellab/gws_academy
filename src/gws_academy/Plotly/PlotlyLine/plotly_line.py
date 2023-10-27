@@ -5,9 +5,9 @@
 
 
 from gws_core import (ConfigParams, PlotlyResource,
-                      OutputSpec, OutputSpecs, StrParam, Table, Task,
-                      TaskInputs, TaskOutputs, task_decorator, IntParam,
-                      BoolParam)
+                    StrParam,
+                    TaskInputs, TaskOutputs, task_decorator,
+                    BoolParam)
 
 from gws_academy.Plotly.PlotlyTask.plotly_task import PlotlyTask
 import pandas as pd
@@ -20,10 +20,10 @@ import plotly.express as px
                 short_description="line plot from plotly")
 class PlotlyLine(PlotlyTask):
     """
-    Plotly Line task
-    Inputs : Table
+    Plotly linear plot
+    plotly.express.line()
 
-    Ouputs : PLotlyResource
+    please check : [https://plotly.com/python-api-reference/generated/plotly.express.line.html] for more info
     """
     input_specs = PlotlyTask.input_specs
 
@@ -43,13 +43,14 @@ class PlotlyLine(PlotlyTask):
             default_value=None,
             optional=True,
             visibility="private",
-            human_name="line dash",
+            human_name="Values from this column are used to assign dash-patterns to lines.",
         ),
         'line_dash_sequence' : StrParam(
             default_value=None,
             optional=True,
             visibility="private",
             human_name="line dash sequence",
+
         ),
         'line_dash_map' : StrParam(
             default_value=None,

@@ -4,10 +4,10 @@
 # About us: https://gencovery.com
 
 
-from gws_core import (ConfigParams, InputSpec, InputSpecs, PlotlyResource,
-                      OutputSpec, OutputSpecs, StrParam, Table,
-                      TaskInputs, TaskOutputs, task_decorator, IntParam,
-                      BoolParam, FloatParam, ListParam)
+from gws_core import (ConfigParams, PlotlyResource,
+                       StrParam,
+                      TaskInputs, TaskOutputs, task_decorator,
+                      BoolParam, )
 
 from gws_academy.Plotly.PlotlyTask.plotly_task import PlotlyTask
 
@@ -19,6 +19,13 @@ import plotly.express as px
 @task_decorator(unique_name="PlotlyBoxplot", human_name="Boxplot Plotly",
                 short_description="Boxplot from Plotly")
 class PlotlyBoxplot(PlotlyTask):
+    """
+    Plotly Box plot
+    plotly.express.box()
+
+    please check : [https://plotly.com/python-api-reference/generated/plotly.express.box.html] for more info
+
+    """
     input_specs = PlotlyTask.input_specs
 
     output_specs = PlotlyTask.output_specs
@@ -31,7 +38,7 @@ class PlotlyBoxplot(PlotlyTask):
             optional=True,
             human_name="Box Mode",
             allowed_values=['group','overlay'],
-            short_description="Box mode ('group' or 'overlay')",
+            short_description="places the boxes beside or on the top of each other ",
         ),
         'points' : StrParam(
             default_value='outliers',

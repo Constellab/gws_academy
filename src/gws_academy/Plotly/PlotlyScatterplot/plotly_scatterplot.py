@@ -19,6 +19,12 @@ import plotly.express as px
 @task_decorator("PlotlyScatterplot", human_name="Scatterplot Plotly",
                 short_description="Scatter plot from plotly(px)")
 class PlotlyScatterplot(PlotlyTask):
+    """
+    Plotly scatter plot
+    plotly.express.scatter()
+
+    please check : [https://plotly.com/python-api-reference/generated/plotly.express.scatter.html] for more info
+    """
 
     input_specs = PlotlyTask.input_specs
 
@@ -67,6 +73,7 @@ class PlotlyScatterplot(PlotlyTask):
         **PlotlyTask.errors,
         **PlotlyTask.color_continuous,
         **PlotlyTask.trendline,
+        **PlotlyTask.custom_data,
     }
 
     def run(self, params: ConfigParams, inputs: TaskInputs) -> TaskOutputs:
@@ -121,7 +128,7 @@ class PlotlyScatterplot(PlotlyTask):
             custom_data=params['custom_data'],
             #trendline
             trendline=params['trendline'],
-            trendline_color_override=params['trendline_color_overide'],
+            trendline_color_override=params['trendline_color_override'],
             trendline_options=params['trendline_options'],
             trendline_scope=params['trendline_scope'],
             #errors
