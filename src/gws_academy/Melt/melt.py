@@ -68,7 +68,9 @@ class Melt(Task):
 
     def run(self, params: ConfigParams, inputs: TaskInputs) -> TaskOutputs:
         dataframe = pd.DataFrame(inputs['input_table'].get_data())
-
+        for key, i  in params.items() :
+            if i == "" :
+                params[key]= None
         result = pd.melt(dataframe,
                          id_vars=params['id_vars'],
                          value_vars=params["value_vars"],

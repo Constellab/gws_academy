@@ -8,9 +8,10 @@ import os
 from gws_core import (CondaShellProxy, ConfigParams, File, InputSpec,
                       MessageDispatcher, OutputSpec, PipShellProxy, Task,
                       TaskFileDownloader, TaskInputs, TaskOutputs,
-                      task_decorator, TableExporter, TableImporter)
+                      task_decorator, TableExporter, TableImporter, BoolParam)
 from gws_core.config.param.param_spec import IntParam, StrParam
 from gws_core.impl.shell.shell_proxy import ShellProxy
+
 
 class KeggSchemaColorEnvHelper():
     CONDA_ENV_DIR_NAME = "KeggSchemaColorCondaEnv"
@@ -40,51 +41,57 @@ class KeggSchema(Task):
     commercial use of KEGG requires a license. Please ensure that you have
     licence to use KEGG database."""
     input_specs = InputSpecs({
-        "input_table" : InputSpec(Table, human_name="input Table")
+        "input_table": InputSpec(Table, human_name="input Table")
     })
 
     output_specs = OutputSpecs({
-        'output_schema' : OutputSpec(File, human_name="output scheme"),
-        'output_table' : OutputSpec(Table, human_name="output table")
+        'output_schema': OutputSpec(File, human_name="output scheme"),
+        'output_table': OutputSpec(Table, human_name="output table")
     })
 
     config_specs = {
-        'specie' : StrParam(
+        'specie': StrParam(
             default_value=None,
             optional=True,
             human_name='species',
             short_description=""
         ),
-        'pathway_id' : StrParam(
+        'pathway_id': StrParam(
             default_value=None,
             optional=True,
             human_name='pathway id',
-            short_description='replace with the pathway id you want to explore (map00010 for example), None, not known',
+            short_description='replace with the pathway id you want to explore (map00010 for example), None, if not known',
         ),
-        'type_gene_id' : StrParam(
+        'type_gene_id': StrParam(
             default_value=None,
             optional=True,
             human_name="Type gene id",
             short_description=" i.e : Glycolysis, if you don't know the pathway ID, fill this with the name"
         ),
-        'column_gene_id' : StrParam(
+        'column_gene_id': StrParam(
             default_value=None,
             optional=True,
             human_name='column gene id',
-            short_description=""
+            short_description="column name for gene id"
         ),
-        'column_control' : StrParam(
+        'column_control': StrParam(
             default_value=None,
             optional=True,
             human_name='column control',
-            short_description=""
+            short_description="column name for control values"
         ),
-        'column_wild' : StrParam(
+        'column_wild': StrParam(
             default_value=None,
             optional=True,
             human_name='column wild',
-            short_description=""
+            short_description="column name for native values"
         ),
+        'log2': BoolParam(
+            default_value=True,
+            optional=True,
+            human_name='log2',
+            short_description="True if column with foldchange already exist "
+        )
 
     }
 
@@ -92,23 +99,21 @@ class KeggSchema(Task):
 
     def run(self, params: ConfigParams, inputs: TaskInputs) -> TaskOutputs:
 
-
-
         with open("bricks/gws_academy/src/gws_academy/KeggSchemaColor/kegg_schema_color.r", 'r+') as file:
             original_contents = file.read()
 
             file.seek(0)
             file.write(f"""
-            specie = "{params['species']}" \n
-            pathway_id = "{params['pathway_id']}" \n
-            type_gene_id = "{params['type_gene_id']}" \n
-            column_gene_id = "{params['column_gene_id']}" \n
-            column_control = "{param['column_contro'l]}" \n
-            column_wild = "{params['column_wild']}" \n
+            specie <-"{params['species']}" \n
+            pathway_id <- "{params['pathway_id']}" \n
+            type_gene_id <- "{params['type_gene_id']}" \n
+            column_gene_id <- "{params['column_gene_id']}" \n
+            column_control <- "{param['column_control']}" \n
+            column_wild <- "{params['column_wild']}" \n
             """)
             file.write(original_contents)
 
-        TableExporter.call(source =inputs['input_table'], params = {'file_name' : 'input_table'})
+        TableExporter.call(source=inputs['input_table'], params={'file_name': 'input_table'})
 
         ############### Create the shell proxy ################
         shell_proxy = BlastEnvHelper.create_conda_proxy(
@@ -116,11 +121,10 @@ class KeggSchema(Task):
         # store the shell_proxy in the class to be able to use it in the run_after_task method
         self.shell_proxy = shell_proxy
 
-        result = shell_proxy.run("Rscript kegg_schema_color.r")
+        result = shell_proxy.run("Rscript kegg_schema_color.r ")
 
         if result != 0:
             raise Exception('Error during the process')
-
 
         output_file_name = "result.csv"
         # get the absolute path of the output
@@ -129,12 +133,10 @@ class KeggSchema(Task):
         # create the output Resource (File)
         output_file = File(output_file_path)
 
-        return {'output_table' : TableImporter.call(File('result.csv')),
-                'output_schema' : output_file}
+        return {'output_table': TableImporter.call(File('result.csv')),
+                'output_schema': output_file}
 
-
-
-     def run_after_task(self) -> None:
+    def run_after_task(self) -> None:
         # use to delete the temp folder once the task is done and output resources saved
         # this is safe to do it here becase the output resource was move to the Resource location
         if self.shell_proxy:
