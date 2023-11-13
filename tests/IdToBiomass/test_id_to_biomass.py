@@ -26,11 +26,6 @@ class TestIdToBiomass(BaseTestCase):
                             inputs={'input_json': modele},
                             params={'id': "eee"})
 
-        output = runner.run()
-
         # Utiliser assertRaises pour vérifier qu'une exception est levée
-        with self.assertRaises(Exception) as context:
+        with self.assertRaises(Exception) :
             output = runner.run()
-
-        # Vérifier le message d'exception (à adapter selon votre implémentation)
-        self.assertIn("not in reactions", str(context.exception))

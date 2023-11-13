@@ -1,7 +1,6 @@
 
-from io import StringIO
 import pandas as pd
-import math
+
 from gws_core import Table, TaskRunner, BaseTestCase, PlotlyResource, ConfigParams
 from gws_academy.NcbiGeneToEntrezID.ncbi_gene_to_entrez_id import NCBIGeneToENTREZId
 from numpy import NaN
