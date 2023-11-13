@@ -4,8 +4,8 @@ from gws_academy.Plotly.PlotlyHistogram.plotly_histogram import PlotlyHistogram
 import plotly.express as px
 
 
-class TestLineplot(BaseTestCase):
-    def test_line(self):
+class TestHistogram(BaseTestCase):
+    def test_histogram(self):
         # Créez un DataFrame de test
         df = pd.DataFrame({
             'x': [1],

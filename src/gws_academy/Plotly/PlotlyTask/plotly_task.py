@@ -391,8 +391,8 @@ class PlotlyTask(Task):
             allowed_values=['stack', 'group', 'overlay', 'relative'],
             visibility="protected",
         ),
-        'text_auto' : StrParam(
-            default_value=None,
+        'text_auto' : BoolParam(
+            default_value=False,
             optional=True,
             visibility='private',
             human_name='text auto',

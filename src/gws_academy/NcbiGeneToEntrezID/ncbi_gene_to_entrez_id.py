@@ -47,7 +47,18 @@ class NCBIGeneToENTREZId(Task):
     input_specs = InputSpecs({'input_table': InputSpec(Table, human_name="input_table")})
     output_specs = OutputSpecs({'output_table': OutputSpec(Table, human_name="output_table")})
 
-    config_specs = {}
+    config_specs = {
+        'gene_names' : StrParam(
+            default_value='gene_names',
+            human_name="gene names",
+            short_description= "column for genes names"
+        ),
+        'gene_id' : StrParam(
+            default_value='gene_id',
+            human_name='gene id',
+            short_description="name of the new column for genes IDs"
+        )
+    }
 
     def run(self, params: ConfigParams, inputs: TaskInputs) -> TaskOutputs:
         dataframe = pd.DataFrame(inputs['input_table'].get_data())
@@ -65,11 +76,11 @@ class NCBIGeneToENTREZId(Task):
 
             return gene_ids
 
-        gene_names = dataframe['gene_name']
+        gene_names = dataframe[params['gene_names']]
         #sheet with all the gene names from column 1 from 2nd row to last one
         gene_ids = convert_gene_names_to_ids(gene_names)
 
-        dataframe['gene_id'] = gene_names.map(gene_ids)
+        dataframe[params['gene_id']] = gene_names.map(gene_ids)
 
         # Convert the XLSX file to a CSV file while preserving the column name
         return {'output_table' : Table(dataframe)}
