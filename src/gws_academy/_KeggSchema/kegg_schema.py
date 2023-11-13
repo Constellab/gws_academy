@@ -23,7 +23,6 @@ class KeggSchema(Task):
     academic use via the website, it is not in the public domain. All
     commercial use of KEGG requires a license. Please ensure that you have
     licence to use KEGG database."""
-    input_specs = InputSpecs({})
 
     output_specs = OutputSpecs({
         'output_file' : OutputSpec(File, human_name="output scheme")
