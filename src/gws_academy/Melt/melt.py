@@ -15,7 +15,9 @@ import pandas as pd
                 short_description="pandas.melt, Unpivot a DataFrame from wide to long format, optionally leaving identifiers set.")
 class Melt(Task):
     """
-    Melt from pandas
+    Melt from pandas \n
+    input : Table \n
+    output : Table \n
     Unpivot a DataFrame from wide to long format, optionally leaving identifiers set.
 
     This function is useful to massage a DataFrame into a format where one or

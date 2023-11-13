@@ -12,6 +12,17 @@ from gws_core import (ConfigParams, InputSpec, InputSpecs,
 @task_decorator("IdToBiomass", human_name="Id to Biomass",
                 short_description="Change the 'id' of the biomass reaction into 'biomass'")
 class IdToBiomass(Task):
+    """
+    ## Specs
+    input : JSONDict
+    output : JSONDict
+    params :
+    - `id to change` : str: exact id of the reaction corresponding to the biomass reaction
+    ## Use
+
+    This task will return a model where the reaction with the `id to change ` has as its new ID : "biomass"
+
+    """
     input_specs = InputSpecs({'input_json': InputSpec(JSONDict, human_name="input model")})
     output_specs = OutputSpecs({'output_json': OutputSpec(JSONDict, human_name="output model")})
 

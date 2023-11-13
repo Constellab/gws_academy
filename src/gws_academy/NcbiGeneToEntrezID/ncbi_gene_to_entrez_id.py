@@ -37,6 +37,12 @@ class NCBIGeneToENTREZIdHelper():
 
 @task_decorator("NCBIGeneToENTREZId", human_name='NCBI Gene to ENTREZ ID', short_description="ADD a new column gene_id corresponding to the gene ENTREZ gene ID")
 class NCBIGeneToENTREZId(Task):
+    """
+    Input : Table
+    Output : Table
+
+    This task will query mygene.info to get the corresponding ENTREZ ID of the NCBI ID columnn. It will create a new column.
+    """
 
     input_specs = InputSpecs({'input_table': InputSpec(Table, human_name="input_table")})
     output_specs = OutputSpecs({'output_table': OutputSpec(Table, human_name="output_table")})
