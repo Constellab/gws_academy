@@ -9,7 +9,7 @@ from gws_core import (ConfigParams, InputSpec, InputSpecs,
                       TaskInputs, TaskOutputs, task_decorator)
 
 
-@task_decorator("IdToBiomass", human_name="Id to Biomass",
+@task_decorator("IdModifier", human_name="id modifier",
                 short_description="Change the 'id' of the biomass reaction into 'biomass'")
 class IdToBiomass(Task):
     """
@@ -18,9 +18,10 @@ class IdToBiomass(Task):
     output : JSONDict
     params :
     - `id to change` : str: exact id of the reaction corresponding to the biomass reaction
+    - `new id` : str : new name for the id that needed to be change, will be changed to "biomass" by default.
     ## Use
 
-    This task will return a model where the reaction with the `id to change ` has as its new ID : "biomass"
+    This task will return a model where the reaction with the `id to change ` has as its new ID : `new id`
 
     """
     input_specs = InputSpecs({'input_json': InputSpec(JSONDict, human_name="input model")})
@@ -31,6 +32,11 @@ class IdToBiomass(Task):
             default_value=None,
             human_name="id to change",
             short_description="exact id of the biomass reaction"
+        ),
+        "new_id" : StrParam(
+            default_value="biomass",
+            human_name= "new id",
+            short_description="new id, default will be biomass"
         )
     }
 
@@ -42,5 +48,5 @@ class IdToBiomass(Task):
         if params["id"] not in reaction_ids :
             raise Exception(f"id {params['id']} not in reactions")
         to_modify = organism.reactions.get_by_id(params["id"])
-        to_modify.id = "Biomass"
+        to_modify.id = params["new_id"]
         return {'output_json': JSONDict(json.loads(to_json(organism)))}

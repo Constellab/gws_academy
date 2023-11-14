@@ -83,8 +83,10 @@ class GeneRemoveVersion(Task):
 
         # Mise à jour de la liste de gènes dans le modèle
         model_json_1.genes = unique_genes
+        output =  JSONDict(json.loads(to_json(model_json_1)))
 
+        #output.name = inputs["input_json"].name + "no_gene_version"
         # Enregistrez le modèle mis à jour dans un nouveau fichier JSON
-        return {'output_json': JSONDict(json.loads(to_json(model_json_1)))}
+        return {'output_json': output}
 
-# Comment comparer un dict à un ordereddict ?
+

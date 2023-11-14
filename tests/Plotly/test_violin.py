@@ -1,6 +1,6 @@
 import pandas as pd
 from gws_core import Table, TaskRunner, BaseTestCase, PlotlyResource, ConfigParams
-from gws_academy.Plotly.PlotlyViolinplot.plotly_violinplot import PlotlyViolinplot
+from gws_academy.Plotly.PlotlyViolinplot.plotly_violiplot import PlotlyViolinplot
 import plotly.express as px
 
 
