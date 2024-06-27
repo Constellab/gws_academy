@@ -9,7 +9,7 @@
         "bricks": [
             {
                 "name": "gws_core",
-                "version": "0.5.12"
+                "version": "0.8.1"
             }
         ],
         "pip": [
@@ -19,11 +19,6 @@
             }
         ],
         "git": [
-        ],
-        "variables": {
-            "GWS_GIT_LOGIN": "",
-            "GWS_GIT_PWD": "",
-            "GWS_PIP_PACKAGE_TOKEN": ""
-        }
+        ]
     }
 }
