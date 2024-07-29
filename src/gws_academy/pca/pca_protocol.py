@@ -37,7 +37,7 @@ class PCADemo(Protocol):
 
         viewer = self.add_process(Viewer, 'viewer',
                                   {
-                                      Viewer.resource_config_name: Table._typing_name,
+                                      Viewer.resource_config_name: Table.get_typing_name(),
                                       Viewer.view_config_name: {
                                           "config_values": {
                                               "series": [
