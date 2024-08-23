@@ -13,6 +13,10 @@ from plot.plot_generator import generate_scatter_plot
 sources: List[Resource]
 params: dict
 
+""" to run in local :
+gws streamlit run-dev dev_config.json
+"""
+
 # Your Streamlit app code here
 st.title(params.get('title'))
 
