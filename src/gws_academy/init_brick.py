@@ -1,7 +1,7 @@
 
 
-from gws_core import (CurrentUserService, Experiment, ExperimentService,
-                      Logger, QueueService, User)
+from gws_core import (CurrentUserService, Logger, QueueService, Scenario,
+                      ScenarioService, User)
 from gws_core.app import app
 
 from .pca.pca_protocol import PCADemo
@@ -12,20 +12,23 @@ from .solutions.blast.blast_protocol import BlastProtocolDemo
 async def startup_event():
 
     try:
-        if Experiment.select().count() > 0:
-            return
+        # if Scenario.select().count() > 0:
+        #     return
 
         CurrentUserService.set_current_user(User.get_sysuser())
 
         # Execute simple PCA
-        experiment = ExperimentService.create_experiment_from_protocol_type(PCADemo, title='PCA demo')
-        QueueService.add_experiment_to_queue(experiment_id=experiment.id)
+        scenario = ScenarioService.create_scenario_from_protocol_type(
+            PCADemo, title='PCA demo')
+        QueueService.add_scenario_to_queue(scenario_id=scenario.id)
 
         # Execute blast
-        experiment_2 = ExperimentService.create_experiment_from_protocol_type(BlastProtocolDemo, title='Blast demo')
-        QueueService.add_experiment_to_queue(experiment_id=experiment_2.id)
+        scenario_2 = ScenarioService.create_scenario_from_protocol_type(
+            BlastProtocolDemo, title='Blast demo')
+        QueueService.add_scenario_to_queue(scenario_id=scenario_2.id)
 
         CurrentUserService.set_current_user(None)
 
     except Exception as err:
-        Logger.error(f"Error while creating the gws academy demo experiment. Error: {err}")
+        Logger.error(
+            f"Error while creating the gws academy demo scenario. Error: {err}")
