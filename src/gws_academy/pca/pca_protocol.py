@@ -1,6 +1,7 @@
-from gws_core import (ProcessSpec, Protocol, ResourceDownloaderHttp, Sink,
-                      Table, TableColumnScaler, TableColumnsDeleter,
-                      TableImporter, Viewer, protocol_decorator)
+from gws_core import (OutputTask, ProcessSpec, Protocol,
+                      ResourceDownloaderHttp, Table, TableColumnScaler,
+                      TableColumnsDeleter, TableImporter, Viewer,
+                      protocol_decorator)
 
 from .pca import PCAExample
 
@@ -33,7 +34,7 @@ class PCADemo(Protocol):
         })
 
         # define the protocol output
-        sink_1: ProcessSpec = self.add_process(Sink, 'sink_1')
+        output_1: ProcessSpec = self.add_process(OutputTask, 'output_1')
 
         viewer = self.add_process(Viewer, 'viewer',
                                   {
@@ -69,6 +70,6 @@ class PCADemo(Protocol):
             (table_importer >> 'target', column_deleter << 'source'),
             (column_deleter >> 'target', table_scaler << 'source'),
             (table_scaler >> 'target', pca << 'source'),
-            (pca >> 'target', sink_1 << Sink.input_name),
+            (pca >> 'target', output_1 << OutputTask.input_name),
             (pca >> 'target', viewer << Viewer.input_name)
         ])

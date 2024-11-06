@@ -14,6 +14,6 @@ class TestPCAProtocol(BaseTestCase):
         self.assertTrue(experiment.is_success())
 
         # get the output table
-        result_table: Table = experiment.get_protocol().get_process('sink_1').get_input('resource')
+        result_table: Table = experiment.get_protocol().get_process('output_1').get_input('resource')
 
         self.assertEqual(len(result_table.column_names), 2)

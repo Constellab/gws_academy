@@ -1,5 +1,5 @@
-from gws_core import (ProcessSpec, Protocol, ResourceDownloaderHttp, Sink,
-                      protocol_decorator)
+from gws_core import (OutputTask, ProcessSpec, Protocol,
+                      ResourceDownloaderHttp, protocol_decorator)
 
 from .blast import SoBlast
 
@@ -18,9 +18,9 @@ class BlastProtocolDemo(Protocol):
         })
 
         # define the protocol output
-        sink_1: ProcessSpec = self.add_process(Sink, 'sink_1')
+        output_1: ProcessSpec = self.add_process(OutputTask, 'output_1')
 
         self.add_connectors([
             (file_downloader >> 'resource', blast << 'input_file'),
-            (blast >> 'blast_result', sink_1 << Sink.input_name),
+            (blast >> 'blast_result', output_1 << OutputTask.input_name),
         ])
