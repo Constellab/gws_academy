@@ -67,13 +67,13 @@ class SoBlast(Task):
 
         zebra_db = "zebra_fish_db.faa"
         # Unzip db file in the working directory and verify the result
-        result = shell_proxy.run([f"gunzip -c {zebra_zipped_db} > {zebra_db}"])
+        result = shell_proxy.run(f"gunzip -c {zebra_zipped_db} > {zebra_db}", shell_mode=True)
         if result != 0:
             raise Exception('Error during the unzip of database .gz file')
 
         # Create the blast db in the working directory and check the result
         # all the shell command are executed in the virtual environment, so the makeblastdb is available
-        result = shell_proxy.run([f"makeblastdb -in {zebra_db} -dbtype prot -out {zebra_db}"])
+        result = shell_proxy.run(f"makeblastdb -in {zebra_db} -dbtype prot -out {zebra_db}", shell_mode=True)
         if result != 0:
             raise Exception('Error during the creation of the blast db')
 
@@ -83,7 +83,7 @@ class SoBlast(Task):
 
         # Unzip the input file in the working directory and verify the result
         input_file_unzipped = "input.faa"
-        result = shell_proxy.run([f"gunzip -c {file.path} > {input_file_unzipped}"])
+        result = shell_proxy.run(f"gunzip -c {file.path} > {input_file_unzipped}", shell_mode=True)
         if result != 0:
             raise Exception('Error during the unzip of .gz file')
 
@@ -95,7 +95,7 @@ class SoBlast(Task):
         if head > 0:
             # use the head command to limit the number of lines
             sub_file = 'sub_input_file.faa'
-            result = shell_proxy.run([f"head -n {head} {input_file_unzipped} > {sub_file}"])
+            result = shell_proxy.run(f"head -n {head} {input_file_unzipped} > {sub_file}", shell_mode=True)
 
             if result != 0:
                 raise Exception('Error during the head command')
@@ -107,7 +107,8 @@ class SoBlast(Task):
         ############################ Run the blast and retrieve reulst ############################
         output_file_name = 'output.txt'
         # run the blast
-        result = shell_proxy.run([f"blastp -query {file_to_compare} -db {zebra_db} -out {output_file_name}"])
+        result = shell_proxy.run(
+            f"blastp -query {file_to_compare} -db {zebra_db} -out {output_file_name}", shell_mode=True)
 
         if result != 0:
             raise Exception('Error during the blast')
