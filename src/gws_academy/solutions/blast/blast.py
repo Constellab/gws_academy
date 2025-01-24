@@ -15,7 +15,9 @@ class BlastEnvHelper():
 
     @classmethod
     def create_conda_proxy(cls, message_dispatcher: MessageDispatcher = None) -> CondaShellProxy:
-        return CondaShellProxy(cls.CONDA_ENV_DIR_NAME, cls.CONDA_ENV_FILE_PATH, message_dispatcher=message_dispatcher)
+        return CondaShellProxy(
+            env_file_path=cls.CONDA_ENV_FILE_PATH, env_name=cls.CONDA_ENV_DIR_NAME,
+            message_dispatcher=message_dispatcher)
 
 
 @task_decorator("SoBlast", human_name="Blast",
