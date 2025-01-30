@@ -12,7 +12,7 @@ class BiolectorParserStandaloneClass(Dashboard):
 
     # retrieve the path of the app folder, relative to this file
     # the dashboard code folder starts with a underscore to avoid being loaded when the brick is loaded
-    def get_folder_path(self):
+    def get_app_folder_path(self):
         return os.path.join(
             os.path.abspath(os.path.dirname(__file__)),
             "_dashboard_code"
@@ -24,7 +24,8 @@ class BiolectorParserStandaloneClass(Dashboard):
                 )
 class StreamlitGenerator(Task):
 
-    input_specs: InputSpecs = InputSpecs({'table': InputSpec(Table, human_name="Table")})
+    input_specs: InputSpecs = InputSpecs(
+        {'table': InputSpec(Table, human_name="Table")})
     output_specs: OutputSpecs = OutputSpecs({
         'streamlit_app': OutputSpec(StreamlitResource, human_name="Streamlit app")
     })
