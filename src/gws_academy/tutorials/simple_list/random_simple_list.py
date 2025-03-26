@@ -1,7 +1,7 @@
 
 import random
 
-from gws_core import (ConfigParams, IntParam, OutputSpec, OutputSpecs,
+from gws_core import (ConfigParams, IntParam, OutputSpec, OutputSpecs, ConfigSpecs,
                       StrParam, Task, TaskInputs, TaskOutputs, task_decorator)
 
 from .simple_list import SimpleList
@@ -17,9 +17,9 @@ class RandomSimpleList(Task):
     output_specs = OutputSpecs({'simple_list': OutputSpec(SimpleList, human_name="Result",
                                                           short_description="The output result")})
 
-    config_specs = {
+    config_specs = ConfigSpecs({
         'list_length': IntParam(default_value=100, min_value=1, max_value=10000),
-        'description': StrParam()}
+        'description': StrParam()})
 
     def run(self, params: ConfigParams, inputs: TaskInputs) -> TaskOutputs:
         """ Run the task """

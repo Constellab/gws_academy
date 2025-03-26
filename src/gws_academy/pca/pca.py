@@ -1,6 +1,6 @@
 
 
-from gws_core import (ConfigParams, InputSpec, InputSpecs, IntParam,
+from gws_core import (ConfigParams, InputSpec, InputSpecs, IntParam, ConfigSpecs,
                       OutputSpec, OutputSpecs, Table, Task, TaskInputs,
                       TaskOutputs, task_decorator)
 from sklearn.decomposition import PCA
@@ -15,9 +15,9 @@ class PCAExample(Task):
     output_specs = OutputSpecs({'target': OutputSpec(Table, human_name="Result",
                                                      short_description="The output table")})
 
-    config_specs = {
+    config_specs = ConfigSpecs({
         'nb_components': IntParam(default_value=2, min_value=2)
-    }
+    })
 
     def run(self, params: ConfigParams, inputs: TaskInputs) -> TaskOutputs:
         """ Run the task """

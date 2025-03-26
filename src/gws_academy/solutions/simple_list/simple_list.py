@@ -1,7 +1,7 @@
 
-from gws_core import (ConfigParams, ListRField, Resource, ScatterPlot2DView,
-                      StrParam, StrRField, Table, TableView, TechnicalInfo,
-                      resource_decorator, view)
+from gws_core import (ConfigParams, ConfigSpecs, ListRField, Resource,
+                      ScatterPlot2DView, StrParam, StrRField, Table, TableView,
+                      TechnicalInfo, resource_decorator, view)
 
 
 @resource_decorator("SoSimpleList", human_name="List of floats",
@@ -31,7 +31,7 @@ class SoSimpleList(Resource):
 
     @view(view_type=ScatterPlot2DView, human_name='View numbers as scatter plot',
           short_description='Visualize you data in a great chart',
-          specs={'y_label': StrParam(human_name='Name of the y axis')})
+          specs=ConfigSpecs({'y_label': StrParam(human_name='Name of the y axis')}))
     def view_as_scatter_plot(self, params: ConfigParams) -> ScatterPlot2DView:
         # retrieve the y_name param
         y_label = params['y_label']

@@ -29,9 +29,9 @@ class StreamlitGenerator(Task):
     output_specs: OutputSpecs = OutputSpecs({
         'streamlit_app': OutputSpec(StreamlitResource, human_name="Streamlit app")
     })
-    config_specs: ConfigSpecs = {
+    config_specs: ConfigSpecs = ConfigSpecs({
         'title': StrParam(human_name='Dashboard title')
-    }
+    })
 
     def run(self, params: ConfigParams, inputs: TaskInputs) -> TaskOutputs:
 
