@@ -47,6 +47,6 @@ class StreamlitGenerator(Task):
         streamlit_resource.set_param('title', title)
 
         # set the app dashboard
-        streamlit_resource.set_dashboard(BiolectorParserStandaloneClass())
+        streamlit_resource.set_app_config(BiolectorParserStandaloneClass())
 
         return {'streamlit_app': streamlit_resource}
