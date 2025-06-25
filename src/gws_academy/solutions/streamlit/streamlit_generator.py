@@ -1,14 +1,14 @@
 
 import os
 
-from gws_core import (ConfigParams, ConfigSpecs, Dashboard, DashboardType,
-                      InputSpec, InputSpecs, OutputSpec, OutputSpecs,
-                      StreamlitResource, StrParam, Table, Task, TaskInputs,
-                      TaskOutputs, dashboard_decorator, task_decorator)
+from gws_core import (AppConfig, AppType, ConfigParams, ConfigSpecs, InputSpec,
+                      InputSpecs, OutputSpec, OutputSpecs, StreamlitResource,
+                      StrParam, Table, Task, TaskInputs, TaskOutputs,
+                      app_decorator, task_decorator)
 
 
-@dashboard_decorator("BiolectorParserStandalone", dashboard_type=DashboardType.STREAMLIT)
-class BiolectorParserStandaloneClass(Dashboard):
+@app_decorator("BiolectorParserStandalone", dashboard_type=AppType.STREAMLIT)
+class BiolectorParserStandaloneClass(AppConfig):
 
     # retrieve the path of the app folder, relative to this file
     # the dashboard code folder starts with a underscore to avoid being loaded when the brick is loaded
@@ -30,7 +30,7 @@ class StreamlitGenerator(Task):
         'streamlit_app': OutputSpec(StreamlitResource, human_name="Streamlit app")
     })
     config_specs: ConfigSpecs = ConfigSpecs({
-        'title': StrParam(human_name='Dashboard title')
+        'title': StrParam(human_name='App title')
     })
 
     def run(self, params: ConfigParams, inputs: TaskInputs) -> TaskOutputs:
